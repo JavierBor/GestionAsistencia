@@ -4,11 +4,14 @@ import java.util.*;
 public class Alumno {
     private String nombre;
     private String rut;
+    private int codigo;
+    
     private Asistencia asistencia;
     
-    public Alumno(String nombre, String rut){
+    public Alumno(String nombre, String rut, int codigo){
         this.nombre = nombre;
         this.rut = rut;
+        this.codigo = codigo;
     }
     
     public String getNombre(){
@@ -18,6 +21,13 @@ public class Alumno {
     public String getRut(){
         return rut;
     }
+         
+    public int getCodigo(){
+        return codigo;
+    }
+    
+
+    
     
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -29,6 +39,8 @@ public class Alumno {
     
     //Métodos (Incluír sobrecarga)
     
-    
+    public void setCodigo(int codigo){
+        this.codigo = codigo;
+    } 
     
 }

@@ -35,12 +35,6 @@ public class GestionAsistencia {
         cursos.get("Cuarto Medio").add(new Alumno("Diego Alvarez", "22234567-8", 10));
         cursos.get("Cuarto Medio").add(new Alumno("Javiera Borquez", "23451189-0", 12));
         cursos.get("Cuarto Medio").add(new Alumno("Diego Valenzuela", "21377678-9", 11));
-
- 
-        cursos.put("Primero Medio", new ArrayList<Alumno>());
-        cursos.put("Segundo Medio", new ArrayList<Alumno>());
-        cursos.put("Tercero Medio", new ArrayList<Alumno>());
-        cursos.put("Cuarto Medio", new ArrayList<Alumno>());
         //// TEST DIEGO COMMIT 
         // COMMIT 2 TEST SKDGADFSHGKJADFKGDFKLÑGJA
 

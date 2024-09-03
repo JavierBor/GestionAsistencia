@@ -1,14 +1,16 @@
 package com.mycompany.gestionasistencia;
-import java.util.*;
 
 public class Alumno {
     private String nombre;
     private String rut;
     private Asistencia asistencia;
+    private int codigo;
     
-    public Alumno(String nombre, String rut){
+    public Alumno(String nombre, String rut, int codigo){
         this.nombre = nombre;
         this.rut = rut;
+        this.codigo = codigo;
+        asistencia = new Asistencia();
     }
     
     public String getNombre(){
@@ -26,7 +28,6 @@ public class Alumno {
     public void setRut(String rut){
         this.rut = rut;
     }
-    
     //Métodos (Incluír sobrecarga)
     
     

@@ -12,10 +12,10 @@ public class GestionAsistencia {
         
         //Crear mapa de cursos (4 en total)
         Map<String, List<Alumno>> cursos = new HashMap<String, List<Alumno>>();
-        cursos.put("Primero Medio", new ArrayList<Alumno>());
-        cursos.put("Segundo Medio", new ArrayList<Alumno>());
-        cursos.put("Tercero Medio", new ArrayList<Alumno>());
-        cursos.put("Cuarto Medio", new ArrayList<Alumno>());
+        cursos.put("Primero Medio", new ArrayList<>());
+        cursos.put("Segundo Medio", new ArrayList<>());
+        cursos.put("Tercero Medio", new ArrayList<>());
+        cursos.put("Cuarto Medio", new ArrayList<>());
 
         // Alumnos para Primero Medio
         cursos.get("Primero Medio").add(new Alumno("Juan Caceres", "21442863-9", 1));
@@ -32,18 +32,11 @@ public class GestionAsistencia {
         cursos.get("Tercero Medio").add(new Alumno("Elena Fernandez", "21123456-7", 9));
         cursos.get("Tercero Medio").add(new Alumno("Laura Sanchez", "19901234-5", 7));
        
-
         // Alumnos para Cuarto Medio
         cursos.get("Cuarto Medio").add(new Alumno("Diego Alvarez", "22234567-8", 10));
-        cursos.get("Cuarto Medio").add(new Alumno("Javiera Borquez", "23451189-0", 12));
+        cursos.get("Cuarto Medio").add(new Alumno("Javier Borquez", "23451189-0", 12));
         cursos.get("Cuarto Medio").add(new Alumno("Diego Valenzuela", "21377678-9", 11));
-        //// TEST DIEGO COMMIT 
-        // COMMIT 2 TEST SKDGADFSHGKJADFKGDFKLÑGJA
-
-        
-
-        
-        
+   
         do{
             System.out.println("1. Pasar asistencia.");
             System.out.println("2. Modificar asistencia.");
@@ -51,6 +44,8 @@ public class GestionAsistencia {
             System.out.println("4. Salir del Programa.");
             System.out.print("Ingrese su opcion: ");
             opcion = Integer.parseInt(lector.readLine());
+            System.out.println("");
+            
             String curso;
             String alumno;
             switch (opcion) 
@@ -60,10 +55,8 @@ public class GestionAsistencia {
                     curso = lector.readLine();
                     ArrayList listaAlumnos = (ArrayList) cursos.get(curso);
                     pasarAsistencia(listaAlumnos);
-                    //Llamada a Método aquí
-                    
-                   
                     break;
+                    
                 case 2:                 
                     System.out.print("Ingrese el curso (ej: Primero Medio): ");
                     curso = lector.readLine();
@@ -84,7 +77,9 @@ public class GestionAsistencia {
                     break;
                     
                 case 3:
-                    System.out.println("Mostrando registros");
+                    mostrarRegistro(cursos);                     
+                    break;
+                    
             }
         } while (opcion != 4);
         System.out.println("Saliendo del programa...");
@@ -120,5 +115,67 @@ public class GestionAsistencia {
         estado = lector.readLine();
         alumno.registrar(fecha, estado);
     }
+    
+    public static void mostrarRegistro(Map<String, List<Alumno>> cursos) throws IOException{
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        int opcion;          
+        String curso;
+        ArrayList alumnos;
+        System.out.println("1. Mostrar Registro de Curso.");
+        System.out.println("2. Mostrar Registro de Alumno.");
+        System.out.println("3. Cancelar.");
+        System.out.print("Ingrese su opción: ");
+        opcion = Integer.parseInt(lector.readLine());
+        
+
+        switch (opcion) {
+            case 1: 
+                System.out.print("Ingrese un curso: (ej: Primero Medio): ");
+                curso = lector.readLine();
+                System.out.println("");
+                alumnos = (ArrayList) cursos.get(curso);
+                for (int i = 0 ; i < alumnos.size() ; i++){
+                    Alumno alumno = (Alumno) alumnos.get(i);
+                    System.out.println("Nombre: "+alumno.getNombre());
+                    System.out.println("RUT: "+alumno.getRut());
+                    alumno.getAsistencia().getRegistros();
+                    System.out.println("");
+                }
+                break;
+
+            case 2:
+                System.out.print("Ingrese un curso: (ej: Primero Medio): ");
+                curso = lector.readLine();
+                System.out.print("Ingrese el nombre del alumno: ");
+                String nombre = lector.readLine();
+                boolean encontrado = false;
+                alumnos = (ArrayList) cursos.get(curso);
+                for (int i = 0 ; i < alumnos.size() ; i++){
+                    Alumno alumno = (Alumno) alumnos.get(i);
+                    if (nombre.equals(alumno.getNombre())){
+                        System.out.println("");
+                        System.out.println("Nombre: "+alumno.getNombre());
+                        System.out.println("RUT: "+alumno.getRut());
+                        alumno.getAsistencia().getRegistros();
+                        System.out.println("");      
+                        encontrado = true;       
+                        break;
+                    }         
+                }
+                if (encontrado == false){
+                    System.out.println("Alumno no encontrado.");
+                }
+                break;
+
+            case 3:
+                System.out.println("Volviendo al menú principal...");
+                break;
+
+            default:
+                System.out.println("Opción no valida.");
+                break;
+        } 
+    }
+    
 }
 

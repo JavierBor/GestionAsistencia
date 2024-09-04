@@ -7,6 +7,8 @@ public class GestionAsistencia {
     public static void main(String[] args)throws IOException{
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         int opcion;
+        int i;
+        int encontrado;
         
         //Crear mapa de cursos (4 en total)
         Map<String, List<Alumno>> cursos = new HashMap<String, List<Alumno>>();
@@ -63,12 +65,22 @@ public class GestionAsistencia {
                    
                     break;
                 case 2:                 
-                    System.out.print("Ingrese el curso: ");
+                    System.out.print("Ingrese el curso (ej: Primero Medio): ");
                     curso = lector.readLine();
                     System.out.print("Ingrese nombre del alumno: ");
                     alumno = lector.readLine();
-                    //Llamada a Método aquí
-                    System.out.println();
+                    encontrado = 0;
+                    i = 0;
+                    while (i != cursos.get(curso).size()){
+                        if (cursos.get(curso).get(i).getNombre().equals(alumno)){
+                            modificarAsistencia(cursos.get(curso).get(i));
+                            encontrado = 1;
+                            break;
+                        }
+                    }
+                    if (encontrado == 0){
+                        System.out.println("No se encontro el alumno entre los registros");
+                    }
                     break;
                     
                 case 3:
@@ -96,6 +108,17 @@ public class GestionAsistencia {
             alumno.registrar(fecha);
             i++;
         }
+        System.out.println();
+    }
+    
+    public static void modificarAsistencia(Alumno alumno) throws IOException{
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        String fecha, estado;
+        System.out.println("Ingrese la fecha actual: (dd/mm/aa)");
+        fecha = lector.readLine();
+        System.out.println("Ingrese Retirado o Atrasado");
+        estado = lector.readLine();
+        alumno.registrar(fecha, estado);
     }
 }
 

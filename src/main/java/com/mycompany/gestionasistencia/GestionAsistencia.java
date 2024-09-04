@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class GestionAsistencia {
-
+    
     public static void main(String[] args)throws IOException{
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         int opcion;
@@ -26,7 +26,7 @@ public class GestionAsistencia {
         cursos.get("Segundo Medio").add(new Alumno("Jose Zamorano", "20890123-4", 6));
 
         // Alumnos para Tercero Medio
-         cursos.get("Tercero Medio").add(new Alumno("Pablo Diaz", "22012345-6", 8));
+        cursos.get("Tercero Medio").add(new Alumno("Pablo Diaz", "22012345-6", 8));
         cursos.get("Tercero Medio").add(new Alumno("Elena Fernandez", "21123456-7", 9));
         cursos.get("Tercero Medio").add(new Alumno("Laura Sanchez", "19901234-5", 7));
        
@@ -54,10 +54,12 @@ public class GestionAsistencia {
             switch (opcion) 
             {
                 case 1: 
-                    System.out.print("Ingrese el curso: ");
+                    System.out.println("Ingrese el curso: (ej: Primero Medio)");
                     curso = lector.readLine();
+                    ArrayList listaAlumnos = (ArrayList) cursos.get(curso);
+                    pasarAsistencia(listaAlumnos);
                     //Llamada a Método aquí
-                    System.out.println();
+                    
                    
                     break;
                 case 2:                 
@@ -74,6 +76,26 @@ public class GestionAsistencia {
             }
         } while (opcion != 4);
         System.out.println("Saliendo del programa...");
+    }
+    
+    
+    
+    
+    public static void pasarAsistencia(ArrayList alumnos)throws IOException{
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Ingrese la fecha actual: (dd/mm/aa)");
+        String fecha = lector.readLine();
+        System.out.println("Para cada alumno ingrese Ausente o Presente");
+        int i = 0;
+        Alumno alumno;
+        while (true){
+            if (i == alumnos.size()){
+                break;
+            }
+            alumno = (Alumno) alumnos.get(i);
+            alumno.registrar(fecha);
+            i++;
+        }
     }
 }
 

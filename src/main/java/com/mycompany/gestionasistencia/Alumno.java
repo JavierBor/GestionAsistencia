@@ -1,4 +1,6 @@
 package com.mycompany.gestionasistencia;
+import java.io.*;
+
 
 public class Alumno {
     private String nombre;
@@ -21,6 +23,10 @@ public class Alumno {
         return rut;
     }
     
+    public int getCodigo(){
+        return codigo;
+    }
+    
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
@@ -28,8 +34,24 @@ public class Alumno {
     public void setRut(String rut){
         this.rut = rut;
     }
-    //Métodos (Incluír sobrecarga)
     
+    public void setRut(int codigo){
+        this.codigo = codigo;
+    }
     
+    // Presente o ausente
+    public void registrar(String fecha) throws IOException{
+        System.out.print(this.nombre + ": ");
+        asistencia.modificar(fecha);
+    }
     
+    // Atraso o retiro
+    public void registrar(String fecha, String estado){
+        asistencia.modificar(fecha, estado);
+    }
+    
+    //Muestra datos de la asistencia del alumno
+    public void mostrarInfo(){
+        asistencia.mostrarRegistros();
+    }
 }

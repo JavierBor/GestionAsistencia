@@ -45,10 +45,10 @@ public class Asistencia {
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Ingrese Presente o Ausente");
         String estado = lector.readLine();
-        if (estado.equals("Presente")){
+        if (estado.equalsIgnoreCase("Presente")){
             this.nAsistencia++;
         }
-        else if (estado.equals("Ausente")){
+        else if (estado.equalsIgnoreCase("Ausente")){
             this.nFaltas++;
         }
         asistencia.put(fecha, estado);
@@ -56,17 +56,17 @@ public class Asistencia {
     
     public void modificar(String fecha, String nuevoEstado){
         String estadoAnterior = asistencia.get(fecha);
-        if (estadoAnterior.equals("Presente")){
+        if (estadoAnterior.equalsIgnoreCase("Presente")){
             this.nAsistencia--;
         }
-        else if (estadoAnterior.equals("Ausente")){
+        else if (estadoAnterior.equalsIgnoreCase("Ausente")){
             this.nFaltas--;
         }
         
-        if (nuevoEstado.equals("Atrasado")){
+        if (nuevoEstado.equalsIgnoreCase("Atrasado")){
             this.nAtrasos++;
         }
-        else if (nuevoEstado.equals("Retirado")){
+        else if (nuevoEstado.equalsIgnoreCase("Retirado")){
             this.nRetiros++;
         }
         asistencia.remove(fecha, estadoAnterior);

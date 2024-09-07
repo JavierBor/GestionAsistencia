@@ -69,49 +69,50 @@ public class GestionAsistencia {
                     System.out.println("Ingrese el curso: (ej: Primero Medio)");
                     
                     curso = lector.readLine();
-                    curso = curso.toLowerCase();
-                    if (cursos.containsKey(curso)) 
+                    String cursoX = curso.toLowerCase();
+                    if (cursos.containsKey(cursoX)) 
                     {
-                        ArrayList listaAlumnos = (ArrayList) cursos.get(curso);
+                        ArrayList listaAlumnos = (ArrayList) cursos.get(cursoX);
                         pasarAsistencia(listaAlumnos);
                         
                     } else {
                         System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
                     }
                     break;
-                    
+
                 case 2:                 
                     System.out.print("Ingrese el curso (ej: Primero Medio): ");
                     curso = lector.readLine();
-                    curso = curso.toLowerCase();
-                    
+                    String cursoS = curso.toLowerCase(); // Convertir el curso a minúsculas para la búsqueda
 
-                    if (cursos.containsKey(curso)) 
+                    if (cursos.containsKey(cursoS)) 
                     {
                         System.out.print("Ingrese nombre del alumno: ");
                         alumno = lector.readLine();
                         encontrado = 0;
-                        
+
                         i = 0;
-                        while (i != cursos.get(curso).size()){
-                            if (cursos.get(curso).get(i).getNombre().equals(alumno)){
-                                modificarAsistencia(cursos.get(curso).get(i));
+       
+                        while (i < cursos.get(cursoS).size()) {
+                            if (cursos.get(cursoS).get(i).getNombre().equals(alumno)) {
+                                modificarAsistencia(cursos.get(cursoS).get(i));
                                 encontrado = 1;
-                                break;
+                                break; 
                             }
-                        if (encontrado == 0){
-                                System.out.println("No se encontro el alumno entre los registros");
-                                break;
-                        }                        
+                            i++; 
+                        }
 
-                    }
-
-                    
+ 
+                        if (encontrado == 0) {
+                            System.out.println("No se encontró el alumno entre los registros.");
+                        }
                     } else {
-                        System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
+                        System.out.println("El curso no existe en los registros.");
                     }
-                    
                     break;
+
+
+  
                     
                 case 3:
                     mostrarRegistro(cursos);                     
@@ -174,10 +175,10 @@ public class GestionAsistencia {
             System.out.print("Ingrese un curso: (ej: Primero Medio): ");
             curso = lector.readLine();
             
-            curso = curso.toLowerCase();
+            String curso1 = curso.toLowerCase();
             System.out.println("");
 
-            alumnos = cursos.get(curso);
+            alumnos = cursos.get(curso1);
             if (alumnos != null) {
                 for (int i = 0 ; i < alumnos.size() ; i++) {
                     Alumno alumno = alumnos.get(i);
@@ -194,12 +195,12 @@ public class GestionAsistencia {
         case 2:
             System.out.print("Ingrese un curso: (ej: Primero Medio): ");
             curso = lector.readLine();
-            curso = curso.toLowerCase();
+            String curso2 = curso.toLowerCase();
             System.out.print("Ingrese el nombre del alumno: ");
             String nombre = lector.readLine();
             boolean encontrado = false;
 
-            alumnos = cursos.get(curso);
+            alumnos = cursos.get(curso2);
             if (alumnos != null) {
                 for (int i = 0 ; i < alumnos.size(); i++) {
                     Alumno alumno = alumnos.get(i);

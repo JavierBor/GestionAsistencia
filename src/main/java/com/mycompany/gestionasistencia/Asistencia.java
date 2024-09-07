@@ -55,6 +55,10 @@ public class Asistencia {
     }
     
     public void modificar(String fecha, String nuevoEstado){
+        if (asistencia.containsKey(fecha) == false){
+            System.out.println("Fecha no registrada, por favor intente otra.");
+            return;
+        }
         String estadoAnterior = asistencia.get(fecha);
         if (estadoAnterior.equalsIgnoreCase("Presente")){
             this.nAsistencia--;

@@ -1,6 +1,7 @@
 package com.mycompany.gestionasistencia;
 import java.io.*;
 import java.util.*;
+import java.net.URL;
 
 public class GestionAsistencia {
     
@@ -36,6 +37,10 @@ public class GestionAsistencia {
         cursos.get("cuarto medio").add(new Alumno("Diego Alvarez", "22234567-8", 10));
         cursos.get("cuarto medio").add(new Alumno("Javier Borquez", "23451189-0", 12));
         cursos.get("cuarto medio").add(new Alumno("Diego Valenzuela", "21377678-9", 11));
+        
+        //Cargar archivo de alumnos
+        String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
+        cargarAlumnosDesdeURL(urlArchivo, cursos);
         
         do{
             boolean validInput = false;
@@ -159,76 +164,117 @@ public class GestionAsistencia {
 
     
     public static void mostrarRegistro(Map<String, List<Alumno>> cursos) throws IOException {
-    BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-    int opcion;          
-    String curso;
-    List<Alumno> alumnos;  
-    System.out.println("1. Mostrar Registro de Curso.");
-    System.out.println("2. Mostrar Registro de Alumno.");
-    System.out.println("3. Cancelar.");
-    System.out.print("Ingrese su opción: ");
-    opcion = Integer.parseInt(lector.readLine());
-    
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        int opcion;          
+        String curso;
+        List<Alumno> alumnos;  
+        System.out.println("1. Mostrar Registro de Curso.");
+        System.out.println("2. Mostrar Registro de Alumno.");
+        System.out.println("3. Cancelar.");
+        System.out.print("Ingrese su opción: ");
+        opcion = Integer.parseInt(lector.readLine());
 
-    switch (opcion) {
-        case 1: 
-            System.out.print("Ingrese un curso: (ej: Primero Medio): ");
-            curso = lector.readLine();
-            
-            String curso1 = curso.toLowerCase();
-            System.out.println("");
 
-            alumnos = cursos.get(curso1);
-            if (alumnos != null) {
-                for (int i = 0 ; i < alumnos.size() ; i++) {
-                    Alumno alumno = alumnos.get(i);
-                    System.out.println("Nombre: " + alumno.getNombre());
-                    System.out.println("RUT: " + alumno.getRut());
-                    alumno.mostrarInfo();  
-                    System.out.println("");
-                }
-            } else {
-                System.out.println("El curso ingresado no existe.");
-            }
-            break;
+        switch (opcion) {
+            case 1: 
+                System.out.print("Ingrese un curso: (ej: Primero Medio): ");
+                curso = lector.readLine();
 
-        case 2:
-            System.out.print("Ingrese un curso: (ej: Primero Medio): ");
-            curso = lector.readLine();
-            String curso2 = curso.toLowerCase();
-            System.out.print("Ingrese el nombre del alumno: ");
-            String nombre = lector.readLine();
-            boolean encontrado = false;
+                String curso1 = curso.toLowerCase();
+                System.out.println("");
 
-            alumnos = cursos.get(curso2);
-            if (alumnos != null) {
-                for (int i = 0 ; i < alumnos.size(); i++) {
-                    Alumno alumno = alumnos.get(i);
-                    if (nombre.equalsIgnoreCase(alumno.getNombre())){
-                        System.out.println("");
+                alumnos = cursos.get(curso1);
+                if (alumnos != null) {
+                    for (int i = 0 ; i < alumnos.size() ; i++) {
+                        Alumno alumno = alumnos.get(i);
                         System.out.println("Nombre: " + alumno.getNombre());
                         System.out.println("RUT: " + alumno.getRut());
                         alumno.mostrarInfo();  
                         System.out.println("");
-                        encontrado = true;
-                        break;
+                    }
+                } else {
+                    System.out.println("El curso ingresado no existe.");
+                }
+                break;
+
+            case 2:
+                System.out.print("Ingrese un curso: (ej: Primero Medio): ");
+                curso = lector.readLine();
+                String curso2 = curso.toLowerCase();
+                System.out.print("Ingrese el nombre del alumno: ");
+                String nombre = lector.readLine();
+                boolean encontrado = false;
+
+                alumnos = cursos.get(curso2);
+                if (alumnos != null) {
+                    for (int i = 0 ; i < alumnos.size(); i++) {
+                        Alumno alumno = alumnos.get(i);
+                        if (nombre.equalsIgnoreCase(alumno.getNombre())){
+                            System.out.println("");
+                            System.out.println("Nombre: " + alumno.getNombre());
+                            System.out.println("RUT: " + alumno.getRut());
+                            alumno.mostrarInfo();  
+                            System.out.println("");
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if (!encontrado) {
+                        System.out.println("Alumno no encontrado.");
+                    }
+                } else {
+                    System.out.println("El curso ingresado no existe.");
+                }
+                break;
+
+            case 3:
+                System.out.println("Volviendo al menú principal...");
+                break;
+
+            default:
+                System.out.println("Opción no válida.");
+                break;
+        }
+    }
+    
+    public static void cargarAlumnosDesdeURL(String urlArchivo, Map<String, List<Alumno>> cursos) {
+        BufferedReader br = null;
+        try {
+            // Crear URL y abrir conexión
+            URL url = new URL(urlArchivo);
+            br = new BufferedReader(new InputStreamReader(url.openStream())); //Leemos a través del URL
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 4) {
+                    String curso = datos[0].trim();
+                    String nombre = datos[1].trim();
+                    String rut = datos[2].trim();
+                    int codigoUnico = Integer.parseInt(datos[3].trim());
+
+                    // Crear objeto Alumno con nombre, rut y código único
+                    Alumno alumno = new Alumno(nombre, rut, codigoUnico);
+                    List<Alumno> listaAlumnos = cursos.get(curso.toLowerCase());
+                    if (listaAlumnos != null) {
+                        listaAlumnos.add(alumno); // Agregar el alumno a la lista
+                    } else {
+                        System.out.println("Curso no encontrado: " + curso);
                     }
                 }
-                if (!encontrado) {
-                    System.out.println("Alumno no encontrado.");
-                }
-            } else {
-                System.out.println("El curso ingresado no existe.");
             }
-            break;
-
-        case 3:
-            System.out.println("Volviendo al menú principal...");
-            break;
-
-        default:
-            System.out.println("Opción no válida.");
-            break;
+        } catch (NumberFormatException e) {
+            System.out.println("Error al convertir el código único a entero: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error al leer el archivo desde la URL: " + e.getMessage());
+        } finally {
+            try {
+                if (br != null) {
+                    br.close(); // Cerrar el BufferedReader
+                }
+            } catch (Exception e) {
+                System.out.println("Error al cerrar el BufferedReader: " + e.getMessage());
+            }
+        }
     }
-}
 }

@@ -1,45 +1,28 @@
 package com.mycompany.gestionasistencia;
 import java.io.*;
 
-
-public class Alumno {
-    private String nombre;
-    private String rut;
+public class Alumno extends MiembroEstablecimiento{
+    private int numTutor;
     private Asistencia asistencia;
-    private int codigo;
     
-    public Alumno(String nombre, String rut, int codigo){
-        this.nombre = nombre;
-        this.rut = rut;
-        this.codigo = codigo;
+    public Alumno(String nombre, String correo, String rut, int codigo, int numTutor){
+        super(nombre, correo, rut, codigo);
+        this.numTutor = numTutor;
         asistencia = new Asistencia();
     }
     
-    public String getNombre(){
-        return nombre;
-    }
-     
-    public String getRut(){
-        return rut;
+    //GETTERS
+    public int getNumTutor(){
+        return numTutor;
     }
     
-    public int getCodigo(){
-        return codigo;
+    //SETTERS
+    public void setNumTutor(){
+        this.numTutor = numTutor;
     }
     
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    
-    public void setRut(String rut){
-        this.rut = rut;
-    }
-    
-    public void setRut(int codigo){
-        this.codigo = codigo;
-    }
-    
-    // Presente o ausente
+    //MÉTODOS
+    //Presente o ausente
     public void registrar(String fecha) throws IOException{
         System.out.print(this.nombre + ": ");
         asistencia.modificar(fecha);

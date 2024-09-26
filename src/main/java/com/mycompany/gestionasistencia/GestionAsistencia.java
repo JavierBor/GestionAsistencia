@@ -19,24 +19,24 @@ public class GestionAsistencia {
         cursos.put("cuarto medio", new ArrayList<>());
 
         // Alumnos para Primero Medio
-        cursos.get("primero medio").add(new Alumno("Juan Caceres", "21442863-9", 1));
-        cursos.get("primero medio").add(new Alumno("Maria Gonzalez", "23456559-0", 2));
-        cursos.get("primero medio").add(new Alumno("Carlos Lopez", "21567890-1", 3));
+        cursos.get("primero medio").add(new Alumno("Juan Caceres", "juan.c@mail.com", "21442863-9", 53479, 937868948));
+        cursos.get("primero medio").add(new Alumno("Maria Gonzalez", "maria.g@mail.com", "23456559-0", 41298, 937868948));
+        cursos.get("primero medio").add(new Alumno("Carlos Lopez", "carlos.l@mail.com", "21567890-1", 57483, 937868948));
 
         // Alumnos para Segundo Medio
-        cursos.get("segundo medio").add(new Alumno("Ana Astorga", "21678901-2", 4));
-        cursos.get("segundo medio").add(new Alumno("Luis Martinez", "22789012-3", 5));
-        cursos.get("segundo medio").add(new Alumno("Jose Zamorano", "20890123-4", 6));
+        cursos.get("segundo medio").add(new Alumno("Ana Astorga", "ana.a@mail.com", "21678901-2", 90834, 937868948));
+        cursos.get("segundo medio").add(new Alumno("Luis Martinez", "luis.m@mail.com", "22789012-3", 98756, 937868948));
+        cursos.get("segundo medio").add(new Alumno("Jose Zamorano", "jose.z@mail.com", "20890123-4", 12567, 937868948));
 
         // Alumnos para Tercero Medio
-        cursos.get("tercero medio").add(new Alumno("Pablo Diaz", "22012345-6", 8));
-        cursos.get("tercero medio").add(new Alumno("Elena Fernandez", "21123456-7", 9));
-        cursos.get("tercero medio").add(new Alumno("Laura Sanchez", "19901234-5", 7));
+        cursos.get("tercero medio").add(new Alumno("Pablo Diaz", "pablo.d@mail.com", "22012345-6", 56437, 937868948));
+        cursos.get("tercero medio").add(new Alumno("Elena Fernandez", "elena.f@mail.com", "21123456-7", 58394, 937868948));
+        cursos.get("tercero medio").add(new Alumno("Laura Sanchez", "laura.s@mail.com", "19901234-5", 79856, 937868948));
        
         // Alumnos para Cuarto Medio
-        cursos.get("cuarto medio").add(new Alumno("Diego Alvarez", "22234567-8", 10));
-        cursos.get("cuarto medio").add(new Alumno("Javier Borquez", "23451189-0", 12));
-        cursos.get("cuarto medio").add(new Alumno("Diego Valenzuela", "21377678-9", 11));
+        cursos.get("cuarto medio").add(new Alumno("Diego Alvarez", "diego.a@mail.com", "22234567-8", 10000, 937868948));
+        cursos.get("cuarto medio").add(new Alumno("Javier Borquez", "javier.b@mail.com", "23451189-0", 34867, 945746339));
+        cursos.get("cuarto medio").add(new Alumno("Diego Valenzuela", "diego.v@mail.com", "21377678-9", 12761, 937868948));
         
         //Cargar archivo de alumnos
         String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";

@@ -1,4 +1,5 @@
 com\mycompany\gestionasistencia\Asistencia.class
+com\mycompany\gestionasistencia\GestionAsistencia.class
 com\mycompany\gestionasistencia\MiembroEstablecimiento.class
 com\mycompany\gestionasistencia\Profesor.class
 com\mycompany\gestionasistencia\Alumno.class

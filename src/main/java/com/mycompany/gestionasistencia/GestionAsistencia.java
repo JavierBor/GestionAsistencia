@@ -247,14 +247,16 @@ public class GestionAsistencia {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length == 4) {
+                if (datos.length == 6) {
                     String curso = datos[0].trim();
                     String nombre = datos[1].trim();
                     String rut = datos[2].trim();
                     int codigoUnico = Integer.parseInt(datos[3].trim());
+                    String correo = datos[4].trim();
+                    int numTutor = Integer.parseInt(datos[5].trim());
 
                     // Crear objeto Alumno con nombre, rut y código único
-                    Alumno alumno = new Alumno(nombre, rut, codigoUnico);
+                    Alumno alumno = new Alumno(nombre, correo, rut, codigoUnico, numTutor);
                     List<Alumno> listaAlumnos = cursos.get(curso.toLowerCase());
                     if (listaAlumnos != null) {
                         listaAlumnos.add(alumno); // Agregar el alumno a la lista

@@ -12,35 +12,24 @@ public class GestionAsistencia {
         int encontrado;
         
         //Crear mapa de cursos (4 en total)
-        Map<String, List<Alumno>> cursos = new HashMap<String, List<Alumno>>();
-        cursos.put("primero medio", new ArrayList<>());
-        cursos.put("segundo medio", new ArrayList<>());
-        cursos.put("tercero medio", new ArrayList<>());
-        cursos.put("cuarto medio", new ArrayList<>());
+        Map<String, Curso> cursos = new HashMap<String, Curso>();
+        cursos.put("primero medio", new Curso("primero medio"));
+        cursos.put("segundo medio", new Curso("segundo medio"));
+        cursos.put("tercero medio", new Curso("tercero medio"));
+        cursos.put("cuarto medio", new Curso("cuarto medio"));
 
         // Alumnos para Primero Medio
-        cursos.get("primero medio").add(new Alumno("Juan Caceres", "juan.c@mail.com", "21442863-9", 53479, 937868948));
-        cursos.get("primero medio").add(new Alumno("Maria Gonzalez", "maria.g@mail.com", "23456559-0", 41298, 937868948));
-        cursos.get("primero medio").add(new Alumno("Carlos Lopez", "carlos.l@mail.com", "21567890-1", 57483, 937868948));
-
-        // Alumnos para Segundo Medio
-        cursos.get("segundo medio").add(new Alumno("Ana Astorga", "ana.a@mail.com", "21678901-2", 90834, 937868948));
-        cursos.get("segundo medio").add(new Alumno("Luis Martinez", "luis.m@mail.com", "22789012-3", 98756, 937868948));
-        cursos.get("segundo medio").add(new Alumno("Jose Zamorano", "jose.z@mail.com", "20890123-4", 12567, 937868948));
-
-        // Alumnos para Tercero Medio
-        cursos.get("tercero medio").add(new Alumno("Pablo Diaz", "pablo.d@mail.com", "22012345-6", 56437, 937868948));
-        cursos.get("tercero medio").add(new Alumno("Elena Fernandez", "elena.f@mail.com", "21123456-7", 58394, 937868948));
-        cursos.get("tercero medio").add(new Alumno("Laura Sanchez", "laura.s@mail.com", "19901234-5", 79856, 937868948));
-       
-        // Alumnos para Cuarto Medio
-        cursos.get("cuarto medio").add(new Alumno("Diego Alvarez", "diego.a@mail.com", "22234567-8", 10000, 937868948));
-        cursos.get("cuarto medio").add(new Alumno("Javier Borquez", "javier.b@mail.com", "23451189-0", 34867, 945746339));
-        cursos.get("cuarto medio").add(new Alumno("Diego Valenzuela", "diego.v@mail.com", "21377678-9", 12761, 937868948));
+        try {
+            cursos.get("primero medio").agregarAlumno("Juan Caceres", "juan.c@mail.com", "21442863-9", 53479, 937868948);
+            cursos.get("primero medio").agregarAlumno("Maria Gonzalez", "maria.g@mail.com", "23456559-0", 41298, 937868948);
+            cursos.get("primero medio").agregarAlumno("Carlos Lopez", "carlos.l@mail.com", "21567890-1", 57483, 937868948);
+        } catch (AlumnoRepetidoException e){
+            System.out.println(e.getMessage());
+        }
         
         //Cargar archivo de alumnos
-        String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
-        cargarAlumnosDesdeURL(urlArchivo, cursos);
+        //String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
+        //cargarAlumnosDesdeURL(urlArchivo, cursos);
         
         do{
             boolean validInput = false;
@@ -53,6 +42,7 @@ public class GestionAsistencia {
             
             String curso;
             String alumno;
+            Curso cursoActual;
             
             while (!validInput) {
                 try {
@@ -77,8 +67,8 @@ public class GestionAsistencia {
                     String cursoX = curso.toLowerCase();
                     if (cursos.containsKey(cursoX)) 
                     {
-                        ArrayList listaAlumnos = (ArrayList) cursos.get(cursoX);
-                        pasarAsistencia(listaAlumnos);
+                        cursoActual = (Curso) cursos.get(cursoX);
+                        cursoActual.modAsistencia();
                         
                     } else {
                         System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
@@ -92,25 +82,7 @@ public class GestionAsistencia {
 
                     if (cursos.containsKey(cursoS)) 
                     {
-                        System.out.print("Ingrese nombre del alumno: ");
-                        alumno = lector.readLine();
-                        encontrado = 0;
-
-                        i = 0;
-       
-                        while (i < cursos.get(cursoS).size()) {
-                            if (cursos.get(cursoS).get(i).getNombre().equals(alumno)) {
-                                modificarAsistencia(cursos.get(cursoS).get(i));
-                                encontrado = 1;
-                                break; 
-                            }
-                            i++; 
-                        }
-
- 
-                        if (encontrado == 0) {
-                            System.out.println("No se encontró el alumno entre los registros.");
-                        }
+                        cursoActual = cursos.get(curso);
                     } else {
                         System.out.println("El curso no existe en los registros.");
                     }
@@ -120,7 +92,7 @@ public class GestionAsistencia {
   
                     
                 case 3:
-                    mostrarRegistro(cursos);                     
+                                         
                     break;
                 case 4:
                     System.out.println("Saliendo del Programa..");

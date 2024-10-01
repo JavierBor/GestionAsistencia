@@ -45,7 +45,7 @@ public class GestionAsistencia {
         //Cargar alumnos desde archivo
         //String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
         //cargarAlumnosDesdeURL(urlArchivo, cursos);
-
+        String rut;
         do{
             boolean validInput = false;
             System.out.println("-".repeat(50));
@@ -61,6 +61,7 @@ public class GestionAsistencia {
             
             String nombreCurso;
             Curso cursoActual;
+            int opcionCase3;
             while (!validInput) {
                 try {
                     System.out.print("Ingrese su opción: ");
@@ -99,7 +100,7 @@ public class GestionAsistencia {
                     {
                         cursoActual = cursos.get(nombreCurso);
                         System.out.print("Ingrese el RUT del alumno: ");
-                        String rut = lector.readLine();
+                        rut = lector.readLine();
                         cursoActual.modAsistencia(rut);   
                     } 
                     else {
@@ -107,8 +108,7 @@ public class GestionAsistencia {
                     }
                     break;
 
-                case 3:    
-                    int opcionCase3;
+                case 3:
                     System.out.println("1. Mostrar Registro de Curso.");
                     System.out.println("2. Mostrar Registro de Alumno.");
                     System.out.println("3. Mostrar Alumnos en Situación de Riesgo."); // Nueva opción
@@ -125,12 +125,18 @@ public class GestionAsistencia {
                             break;
 
                         case 2:
-                            System.out.print("Ingrese el curso (ej: Primero Medio): ");
-                            nombreCurso = lector.readLine().toLowerCase();
-                            cursoActual = (Curso) cursos.get(nombreCurso);
-                            System.out.print("Ingrese el RUT del Alumno: ");
-                            String rut = lector.readLine();
-                            cursoActual.mostrarRegistro(rut); 
+                            try{
+                                System.out.print("Ingrese el curso (ej: Primero Medio): ");
+                                nombreCurso = lector.readLine().toLowerCase();
+                                cursoActual = (Curso) cursos.get(nombreCurso);
+                                if (cursoActual != null){
+                                    System.out.print("Ingrese el RUT del Alumno: ");
+                                    rut = lector.readLine();
+                                    cursoActual.mostrarRegistro(rut);
+                                }
+                            } catch(AlumnoNoEncontradoException e){
+                                System.out.println(e.getMessage());
+                            }
                             break;
 
                         case 3: // Nueva opción (FALTA MOSTRAR LOS ALUMNOS EN UN ARCHIVO TXT PERO NO ESTOY SEGURO SI LO 
@@ -144,7 +150,9 @@ public class GestionAsistencia {
                                 System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
                             }
                             break;
+                        
                     }
+                    break;
 
 
                     

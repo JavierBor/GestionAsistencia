@@ -41,7 +41,7 @@ public class GestionAsistencia {
         } catch (AlumnoRepetidoException e){
             System.out.println(e.getMessage());
         }
-        
+        // test para saber si ya puedo
         //Cargar alumnos desde archivo
         String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
         cargarAlumnosDesdeURL(urlArchivo, cursos);

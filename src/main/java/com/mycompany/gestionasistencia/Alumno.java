@@ -52,6 +52,11 @@ public class Alumno extends MiembroEstablecimiento{
         asistencia.modificar(fecha, estado);
     }
     
+    public Asistencia getAsistencia() {
+    return asistencia;
+}
+
+    
     //Muestra datos de la asistencia del alumno
     @Override
     public void mostrarInformacion(){
@@ -62,4 +67,5 @@ public class Alumno extends MiembroEstablecimiento{
         System.out.println("");
         asistencia.mostrarRegistros();
     }
+    
 }

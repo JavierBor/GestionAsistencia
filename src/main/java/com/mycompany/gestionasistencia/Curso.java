@@ -63,6 +63,34 @@ public class Curso {
             System.out.println("-".repeat(60));
         }
     }
+    // metodo para mostrar los alumnos en riesgo
+    public void mostrarAlumnosEnRiesgo() {
+        boolean hayAlumnosEnRiesgo = false;
+        System.out.println("Alumnos en Situación de Riesgo (<70% de asistencia):");
+        System.out.println("-".repeat(60));
+
+        for (Alumno alumno : alumnos) {
+            int asistencias = alumno.getAsistencia().getAsists();
+            int totalDias = asistencias + alumno.getAsistencia().getFaltas();
+
+            if (totalDias > 0) {
+                double porcentajeAsistencia = (asistencias / (double) totalDias) * 100;
+                if (porcentajeAsistencia < 70) {
+                    hayAlumnosEnRiesgo = true;
+                    System.out.println("Nombre: " + alumno.getNombre());
+                    System.out.println("RUT: " + alumno.getRut());
+                    System.out.println("Porcentaje de Asistencia: " + String.format("%.2f", porcentajeAsistencia) + "%");
+                    System.out.println("-".repeat(60));
+                }
+            }
+    }
+    
+        if (!hayAlumnosEnRiesgo) {
+            System.out.println("No hay alumnos en situación de riesgo en este curso.");
+        }
+}
+
+    
     
     //Para pasar lista normalmente
     public void modAsistencia()throws IOException{

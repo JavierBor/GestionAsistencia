@@ -43,8 +43,8 @@ public class GestionAsistencia {
         }
         // test para saber si ya puedo
         //Cargar alumnos desde archivo
-        String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
-        cargarAlumnosDesdeURL(urlArchivo, cursos);
+        //String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
+        //cargarAlumnosDesdeURL(urlArchivo, cursos);
 
         do{
             boolean validInput = false;
@@ -111,10 +111,11 @@ public class GestionAsistencia {
                     int opcionCase3;
                     System.out.println("1. Mostrar Registro de Curso.");
                     System.out.println("2. Mostrar Registro de Alumno.");
-                    System.out.println("3. Cancelar.");
+                    System.out.println("3. Mostrar Alumnos en Situación de Riesgo."); // Nueva opción
+                    System.out.println("4. Cancelar.");
                     System.out.print("Ingrese su opción: ");
                     opcionCase3 = Integer.parseInt(lector.readLine());
-                    
+
                     switch(opcionCase3){
                         case 1:
                             System.out.print("Ingrese el curso (Ej: Primero Medio): ");
@@ -122,7 +123,7 @@ public class GestionAsistencia {
                             cursoActual = (Curso) cursos.get(nombreCurso);
                             cursoActual.mostrarRegistro();        
                             break;
-                            
+
                         case 2:
                             System.out.print("Ingrese el curso (ej: Primero Medio): ");
                             nombreCurso = lector.readLine().toLowerCase();
@@ -131,13 +132,21 @@ public class GestionAsistencia {
                             String rut = lector.readLine();
                             cursoActual.mostrarRegistro(rut); 
                             break;
-                            
-                        case 3:
-                            System.out.println("Volviendo al Menú Principal...");
-                            System.out.println("");            
+
+                        case 3: // Nueva opción (FALTA MOSTRAR LOS ALUMNOS EN UN ARCHIVO TXT PERO NO ESTOY SEGURO SI LO 
+                            //HARE ACA, EL PUNTO 2.5 ES MOSTRAR LOS ALUMNOS EN RIESGO DE ASISTENCIA
+                            System.out.print("Ingrese el curso (Ej: Primero Medio): ");
+                            nombreCurso = lector.readLine().toLowerCase();
+                            if (cursos.containsKey(nombreCurso)) {
+                                cursoActual = cursos.get(nombreCurso);
+                                cursoActual.mostrarAlumnosEnRiesgo();
+                            } else {
+                                System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
+                            }
                             break;
                     }
-                    break;
+
+
                     
                 case 4: //Función asignar profe jefe (la hace clapi)
                     System.out.println("PENDIENTE");
@@ -154,6 +163,7 @@ public class GestionAsistencia {
             
         } while (opcion != 6);
     }
+        
 
     public static void cargarAlumnosDesdeURL(String urlArchivo, Map<String, Curso> cursos) {
         BufferedReader br = null;

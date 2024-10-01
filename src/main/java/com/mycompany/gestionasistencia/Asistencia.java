@@ -41,47 +41,62 @@ public class Asistencia {
         return asistencia.get(fecha);
     }
     
-    public void modificar(String fecha) throws IOException{
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Ingrese Presente o Ausente");
-        String estado = lector.readLine();
-        if (estado.equalsIgnoreCase("Presente")){
+    public void modificar(String fecha, int opcion) throws IOException{
+        String estado = "";
+        if (opcion == 1){
             this.nAsistencia++;
+            estado = "Presente";
         }
-        else if (estado.equalsIgnoreCase("Ausente")){
+        else if (opcion == 2){
             this.nFaltas++;
+            estado = "Ausente";
         }
         asistencia.put(fecha, estado);
     }
     
-    public void modificar(String fecha, String nuevoEstado){
-        if (asistencia.containsKey(fecha) == false){
-            System.out.println("Fecha no registrada, por favor intente otra.");
-            return;
-        }
+    public void modificar(String fecha, String nuevoEstado) {
+  
         String estadoAnterior = asistencia.get(fecha);
-        if (estadoAnterior.equalsIgnoreCase("Presente")){
-            this.nAsistencia--;
+        if (estadoAnterior != null) {
+            if (estadoAnterior.equalsIgnoreCase("Presente")) {
+                this.nAsistencia--;
+            } else if (estadoAnterior.equalsIgnoreCase("Ausente")) {
+                this.nFaltas--;
+            }
         }
-        else if (estadoAnterior.equalsIgnoreCase("Ausente")){
-            this.nFaltas--;
+
+        if (nuevoEstado.equalsIgnoreCase("Atrasado") || 
+            nuevoEstado.equalsIgnoreCase("Retirado") || 
+            nuevoEstado.equalsIgnoreCase("Presente") || 
+            nuevoEstado.equalsIgnoreCase("Ausente")) {
+
+           
+            if (nuevoEstado.equalsIgnoreCase("Atrasado")) {
+                this.nAtrasos++;
+            } else if (nuevoEstado.equalsIgnoreCase("Retirado")) {
+                this.nRetiros++;
+            } else if (nuevoEstado.equalsIgnoreCase("Presente")) {
+                this.nAsistencia++;
+            } else if (nuevoEstado.equalsIgnoreCase("Ausente")) {
+                this.nFaltas++;
+            }
+
+ 
+            asistencia.remove(fecha, estadoAnterior);
+            asistencia.put(fecha, nuevoEstado);
+
+        } else {
+
+            System.out.println("Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.");
         }
-        
-        if (nuevoEstado.equalsIgnoreCase("Atrasado")){
-            this.nAtrasos++;
-        }
-        else if (nuevoEstado.equalsIgnoreCase("Retirado")){
-            this.nRetiros++;
-        }
-        asistencia.remove(fecha, estadoAnterior);
-        asistencia.put(fecha, nuevoEstado);
     }
-    
+
     public String obtenerInfo(String fecha){
         return asistencia.get(fecha);
     }
     
     public void mostrarRegistros(){
+        System.out.println("Estadísticas de Asistencia:");
         System.out.println("Presente:" + this.nAsistencia);
         System.out.println("Ausente:" + this.nFaltas);
         System.out.println("Atrasos:" + this.nAtrasos);

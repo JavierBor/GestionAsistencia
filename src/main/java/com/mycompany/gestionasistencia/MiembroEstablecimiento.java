@@ -4,13 +4,11 @@ public class MiembroEstablecimiento{
     protected String nombre;
     protected String correo;
     protected String rut;
-    protected int codigo;
     
-    public MiembroEstablecimiento(String nombre, String correo, String rut, int codigo){
+    public MiembroEstablecimiento(String nombre, String correo, String rut){
         this.nombre = nombre;
         this.correo = correo;
         this.rut = rut;
-        this.codigo = codigo;
     }
 
     //GETTERS
@@ -25,11 +23,7 @@ public class MiembroEstablecimiento{
     public String getRut(){
         return rut;
     }
-    
-    public int getCodigo(){
-        return codigo;
-    }
-    
+
     //SETTERS
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -43,14 +37,11 @@ public class MiembroEstablecimiento{
         this.rut = rut;
     }
     
-    public void setCodigo(int codigo){
-        this.codigo = codigo;
-    }
-    
-    //ESCOGER METODOS A SOBRESCRIBIR, ESTE ES SOLO UN EJEMPLO!
-    // Método a sobrescribir en subclases
-    public void mostrarResponsabilidades(){
-        System.out.println("Responsabilidades generales dentro del establecimiento.");
+    // Métodos a sobrescribir en subclases
+    public void mostrarInformacion(){
+        System.out.println(nombre);
+        System.out.println(rut);
+        System.out.println(correo);
     }
 }
 

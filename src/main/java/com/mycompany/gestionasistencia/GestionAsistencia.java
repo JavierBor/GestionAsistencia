@@ -46,8 +46,16 @@ public class GestionAsistencia {
         //String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
         //cargarAlumnosDesdeURL(urlArchivo, cursos);
         String rut;
+        boolean validInput;
+        String nombreCurso;
+        Curso cursoActual;
+        int opcionCase3;
+        String cursoS;
+        
+        // do while que muestra menu y ejecuta acciones que requiera el usuario
         do{
-            boolean validInput = false;
+            // se muestra el menu por consola
+            validInput = false;
             System.out.println("-".repeat(50));
             System.out.println(" ".repeat(13)+"COLEGIO JINETES DEL BIEN");
             System.out.println("-".repeat(50));
@@ -59,13 +67,13 @@ public class GestionAsistencia {
             System.out.println("6. Salir del Programa.");
             System.out.println("");
             
-            String nombreCurso;
-            Curso cursoActual;
-            int opcionCase3;
+            // bloque para confirmar que el usuario ingrese un opcion correcta
             while (!validInput) {
                 try {
+                    //El usuario ingresa la opcion que requiera
                     System.out.print("Ingrese su opción: ");
                     opcion = Integer.parseInt(lector.readLine());
+                    // se comprueba que sea una opcion valida
                     if (opcion < 1 || opcion > 6) {
                         System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 6.");
                     } else {
@@ -76,65 +84,71 @@ public class GestionAsistencia {
                 }
             }
             
+            //Switch que se encarga de ejecutar la opcion que requiera el usuario
             switch (opcion) 
             {
-                case 1: 
+                case 1: // Pasar asistencia
+                    //EL usuario ingresa el curso en el cual va a pasar asistencia
                     System.out.print("Ingrese el curso (Ej: Primero Medio): ");
                     nombreCurso = lector.readLine().toLowerCase();
-                    if (cursos.containsKey(nombreCurso)) 
+                    if (cursos.containsKey(nombreCurso)) //si el curso se encuentra entre los registro lo obtiene y comienza a pasar lista uno po uno
                     {
                         cursoActual = (Curso) cursos.get(nombreCurso);
                         cursoActual.modAsistencia();
                         
-                    } else {
+                    } else { // Si el curso no se encuentra se muestra un mensaje indicandolo
                         System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
                     }
                     break;
                    
-                case 2:                 
+                case 2:// Modificar la asistencia de un alumno en especifico en un dia en especifico
+                    // El usuario ingresa el curso al que pertenece el alumno que quiere modificar la asistencia
                     System.out.print("Ingrese el curso (Ej: Primero Medio): ");
                     nombreCurso = lector.readLine();
-                    String cursoS = nombreCurso.toLowerCase(); // Convertir el curso a minúsculas para la búsqueda
+                    cursoS = nombreCurso.toLowerCase(); // Convertir el curso a minúsculas para la búsqueda
                     
-                    if (cursos.containsKey(cursoS)) 
+                    if (cursos.containsKey(cursoS)) //Si el curso se encuentra entre los registros se obtiene y se llama al metodo correspondiente
                     {
                         cursoActual = cursos.get(nombreCurso);
                         System.out.print("Ingrese el RUT del alumno: ");
                         rut = lector.readLine();
                         cursoActual.modAsistencia(rut);   
                     } 
-                    else {
+                    else { //Si el curso no se encuentra muestra un mensaje indicandolo
                         System.out.println("El curso no existe en los registros.");
                     }
                     break;
 
-                case 3:
-                    System.out.println("1. Mostrar Registro de Curso.");
-                    System.out.println("2. Mostrar Registro de Alumno.");
-                    System.out.println("3. Mostrar Alumnos en Situación de Riesgo."); // Nueva opción
+                case 3: //mostrar registros (informacion del alumno)
+                    System.out.println("1. Mostrar Registro de Curso."); //mostrar registro de todo el curso
+                    System.out.println("2. Mostrar Registro de Alumno."); //mostrar registro de un alumno en especifico
+                    System.out.println("3. Mostrar Alumnos en Situación de Riesgo."); // opcion SIA 2.5 muestra alumnos que estan bajo una cantidad de asistencia
                     System.out.println("4. Cancelar.");
                     System.out.print("Ingrese su opción: ");
                     opcionCase3 = Integer.parseInt(lector.readLine());
 
-                    switch(opcionCase3){
-                        case 1:
+                    switch(opcionCase3){ //Switch para identificar de que forma mostrar el registro
+                        case 1: // Mostrar el registro de todo el curso, alumno por alumno
                             System.out.print("Ingrese el curso (Ej: Primero Medio): ");
                             nombreCurso = lector.readLine().toLowerCase();
                             cursoActual = (Curso) cursos.get(nombreCurso);
                             cursoActual.mostrarRegistro();        
                             break;
 
-                        case 2:
-                            try{
+                        case 2: // Mostrar el registro de un alumno en especifico
+                            try{ // bloque try para identificar si el alumno que esta buscando se encuentra entre los registros
                                 System.out.print("Ingrese el curso (ej: Primero Medio): ");
-                                nombreCurso = lector.readLine().toLowerCase();
+                                nombreCurso = lector.readLine().toLowerCase();// El usuario ingresa el curso
                                 cursoActual = (Curso) cursos.get(nombreCurso);
-                                if (cursoActual != null){
+                                if (cursoActual != null){ // si el curso esta, pasa a ingresar el nombre del alumno
                                     System.out.print("Ingrese el RUT del Alumno: ");
                                     rut = lector.readLine();
-                                    cursoActual.mostrarRegistro(rut);
+                                    cursoActual.mostrarRegistro(rut); //muestra el registro del alumno
                                 }
-                            } catch(AlumnoNoEncontradoException e){
+                                else{ // si el curso no se encuentra se muestra un mensaje indicandolo
+                                    System.out.println("El curso ingresado no esta entre los registros");
+                                }
+                            } catch(AlumnoNoEncontradoException e){ // en caso que salte la excepcion que indica que el alumno no se encuentra muestra un mensaje indicandolo
                                 System.out.println(e.getMessage());
                             }
                             break;

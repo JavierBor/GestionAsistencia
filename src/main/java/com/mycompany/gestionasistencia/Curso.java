@@ -55,12 +55,15 @@ public class Curso {
         }
     }
     
-    public void mostrarRegistro(String rut){
+    public void mostrarRegistro(String rut) throws AlumnoNoEncontradoException{
         Alumno alumno = estaAlumno(rut);
         if (alumno != null){
             System.out.println("-".repeat(60));
             alumno.mostrarInformacion();
             System.out.println("-".repeat(60));
+        }
+        else{
+            throw new AlumnoNoEncontradoException("El alumno que se ingreso no se encuentra entre los registros");
         }
     }
     // metodo para mostrar los alumnos en riesgo

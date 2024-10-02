@@ -7,7 +7,7 @@ public class GestionAsistencia {
     
     public static void main(String[] args)throws IOException{
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        int opcion= 0;
+        int opcion = 0;
       
         //Crear mapa de cursos (4 en total)
         Map<String, Curso> cursos = new HashMap<String, Curso>();
@@ -41,20 +41,20 @@ public class GestionAsistencia {
         } catch (AlumnoRepetidoException e){
             System.out.println(e.getMessage());
         }
-        // test para saber si ya puedo
-        //Cargar alumnos desde archivo
-        //String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
-        //cargarAlumnosDesdeURL(urlArchivo, cursos);
+
+        // Cargar alumnos desde archivo
+        String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
+        cargarAlumnosDesdeURL(urlArchivo, cursos);
+        
         String rut;
-        boolean validInput;
         String nombreCurso;
         Curso cursoActual;
-        int opcionCase3;
-        String cursoS;
+        boolean validInput;
+        int opcionCase3 = 0;
         
-        // do while que muestra menu y ejecuta acciones que requiera el usuario
+        // Ejecución en tiempo real para mostrar las funciones disponibles
         do{
-            // se muestra el menu por consola
+            // Se muestra el menú principal junto al nombre del establecimiento
             validInput = false;
             System.out.println("-".repeat(50));
             System.out.println(" ".repeat(13)+"COLEGIO JINETES DEL BIEN");
@@ -62,20 +62,18 @@ public class GestionAsistencia {
             System.out.println("1. Pasar asistencia.");
             System.out.println("2. Modificar asistencia.");
             System.out.println("3. Mostrar registros.");
-            System.out.println("4. Asignar profesor jefe.");
-            System.out.println("5. Eliminar profesor jefe.");
-            System.out.println("6. Salir del Programa.");
-            System.out.println("");
+            System.out.println("4. Modificar Curso.");
+            System.out.println("5. Salir del Programa.");
             
-            // bloque para confirmar que el usuario ingrese un opcion correcta
+            // Bloque para confirmar que el usuario ingrese un opcion correcta
             while (!validInput) {
                 try {
                     //El usuario ingresa la opcion que requiera
                     System.out.print("Ingrese su opción: ");
                     opcion = Integer.parseInt(lector.readLine());
                     // se comprueba que sea una opcion valida
-                    if (opcion < 1 || opcion > 6) {
-                        System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 6.");
+                    if (opcion < 1 || opcion > 5) {
+                        System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 5.");
                     } else {
                         validInput = true;  
                     }
@@ -83,6 +81,7 @@ public class GestionAsistencia {
                     System.out.println("Entrada no válida. Por favor, ingrese un número entero.");
                 }
             }
+            System.out.println("");
             
             //Switch que se encarga de ejecutar la opcion que requiera el usuario
             switch (opcion) 
@@ -104,10 +103,9 @@ public class GestionAsistencia {
                 case 2:// Modificar la asistencia de un alumno en especifico en un dia en especifico
                     // El usuario ingresa el curso al que pertenece el alumno que quiere modificar la asistencia
                     System.out.print("Ingrese el curso (Ej: Primero Medio): ");
-                    nombreCurso = lector.readLine();
-                    cursoS = nombreCurso.toLowerCase(); // Convertir el curso a minúsculas para la búsqueda
+                    nombreCurso = lector.readLine().toLowerCase(); // Convertir el curso a minúsculas
                     
-                    if (cursos.containsKey(cursoS)) //Si el curso se encuentra entre los registros se obtiene y se llama al metodo correspondiente
+                    if (cursos.containsKey(nombreCurso)) //Si el curso se encuentra entre los registros se obtiene y se llama al metodo correspondiente
                     {
                         cursoActual = cursos.get(nombreCurso);
                         System.out.print("Ingrese el RUT del alumno: ");
@@ -124,9 +122,26 @@ public class GestionAsistencia {
                     System.out.println("2. Mostrar Registro de Alumno."); //mostrar registro de un alumno en especifico
                     System.out.println("3. Mostrar Alumnos en Situación de Riesgo."); // opcion SIA 2.5 muestra alumnos que estan bajo una cantidad de asistencia
                     System.out.println("4. Cancelar.");
-                    System.out.print("Ingrese su opción: ");
-                    opcionCase3 = Integer.parseInt(lector.readLine());
+                    
+                    validInput = false;
+                    while (!validInput) {
+                        try {
+                            //El usuario ingresa la opcion que requiera
+                            System.out.print("Ingrese su opción: ");
+                            opcionCase3 = Integer.parseInt(lector.readLine());
 
+                            // Se comprueba que sea una opcion valida
+                            if (opcionCase3 < 1 || opcionCase3 > 4) {
+                                System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 4.");
+                            } else {
+                                validInput = true;  
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Entrada no válida. Por favor, ingrese un número entero.");
+                        }
+                    }
+                    System.out.println("");
+                 
                     switch(opcionCase3){ //Switch para identificar de que forma mostrar el registro
                         case 1: // Mostrar el registro de todo el curso, alumno por alumno
                             System.out.print("Ingrese el curso (Ej: Primero Medio): ");
@@ -168,22 +183,19 @@ public class GestionAsistencia {
                     }
                     break;
 
-
-                    
-                case 4: //Función asignar profe jefe (la hace clapi)
-                    System.out.println("PENDIENTE");
+                case 4: //Funcion para modificar cursos individualmente
+                    System.out.print("Ingrese el curso a modificar: ");
+                    nombreCurso = lector.readLine();
+                    cursoActual = cursos.get(nombreCurso);
+                    cursoActual.modificar();
                     break;
                     
-                case 5: //Función eliminar profe jefe (la hace clapi)
-                    System.out.println("PENDIENTE");
-                    break;
-                    
-                case 6:
+                case 5:
                     System.out.println("Saliendo del Programa...");
                     break;
             }
             
-        } while (opcion != 6);
+        } while (opcion != 5);
     }
         
 

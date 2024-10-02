@@ -54,10 +54,9 @@ public class Alumno extends MiembroEstablecimiento{
     
     public Asistencia getAsistencia() {
     return asistencia;
-}
+    }
 
-    
-    //Muestra datos de la asistencia del alumno
+    // Muestra datos de la asistencia del alumno
     @Override
     public void mostrarInformacion(){
         System.out.println("RUT: "+rut);
@@ -67,5 +66,4 @@ public class Alumno extends MiembroEstablecimiento{
         System.out.println("");
         asistencia.mostrarRegistros();
     }
-    
 }

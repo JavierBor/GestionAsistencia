@@ -63,8 +63,9 @@ public class GestionAsistencia {
             System.out.println("2. Modificar asistencia.");
             System.out.println("3. Mostrar registros.");
             System.out.println("4. Modificar Curso.");
-            System.out.println("5. Salir del Programa.");
-            
+            System.out.println("5. Mostrar lista de alumnos en Archivo TXT");
+            System.out.println("6. Salir del Programa.");
+
             // Bloque para confirmar que el usuario ingrese un opcion correcta
             while (!validInput) {
                 try {
@@ -72,7 +73,7 @@ public class GestionAsistencia {
                     System.out.print("Ingrese su opción: ");
                     opcion = Integer.parseInt(lector.readLine());
                     // se comprueba que sea una opcion valida
-                    if (opcion < 1 || opcion > 5) {
+                    if (opcion < 1 || opcion > 6) {
                         System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 5.");
                     } else {
                         validInput = true;  
@@ -168,8 +169,7 @@ public class GestionAsistencia {
                             }
                             break;
 
-                        case 3: // Nueva opción (FALTA MOSTRAR LOS ALUMNOS EN UN ARCHIVO TXT PERO NO ESTOY SEGURO SI LO 
-                            //HARE ACA, EL PUNTO 2.5 ES MOSTRAR LOS ALUMNOS EN RIESGO DE ASISTENCIA
+                        case 3: 
                             System.out.print("Ingrese el curso (Ej: Primero Medio): ");
                             nombreCurso = lector.readLine().toLowerCase();
                             if (cursos.containsKey(nombreCurso)) {
@@ -190,12 +190,30 @@ public class GestionAsistencia {
                     cursoActual.modificar();
                     break;
                     
-                case 5:
+
+                case 5: // Nueva opción para escribir y eliminar el archivo de alumnos
+                    System.out.print("Ingrese el curso (Ej: Primero Medio): ");
+                    nombreCurso = lector.readLine().toLowerCase();
+                    //String filePath = "C:\\Users\\HP\\Documents\\NetBeansProjects\\GestionAsistencia\\src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";  
+                    //String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
+                    if (cursos.containsKey(nombreCurso)) {
+                        cursoActual = cursos.get(nombreCurso);
+                        
+                        
+                        cursoActual.escribirArchivoAlumnos();
+                        cursoActual.abrirArchivo(lector);
+                    } else {
+                        System.out.println("Curso no encontrado. Por favor, ingrese un curso válido.");
+                    }
+                    break;
+                case 6:
                     System.out.println("Saliendo del Programa...");
                     break;
+                  
+                
             }
             
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
         
 

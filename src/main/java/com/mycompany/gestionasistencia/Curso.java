@@ -304,5 +304,69 @@ public class Curso {
         System.out.println("-".repeat(50));
         System.out.println("");      
         }
+
+
+        public void escribirArchivoAlumnos() {
+            String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                writer.write("-".repeat(60));
+                writer.newLine();
+                writer.write("LISTA DE ALUMNOS" );
+                writer.newLine();
+                writer.write("-".repeat(60));
+                writer.newLine();
+                for (Alumno alumno : this.alumnos) {
+                    writer.write("Nombre: " + alumno.getNombre());
+                    writer.newLine();
+                    writer.write("RUT: " + alumno.getRut());
+                    writer.newLine();
+                    writer.write("Correo: " + alumno.getCorreo());
+                    writer.newLine();
+                    writer.write("Teléfono Apoderado: " + alumno.getNumTutor());
+                    writer.newLine();
+                    writer.write("-".repeat(60));
+                    writer.newLine();
+                }
+                System.out.println("Lista de alumnos escrita exitosamente en el archivo.");
+            } catch (IOException e) {
+                System.out.println("Ocurrió un error al escribir en el archivo.");
+                e.printStackTrace();
+            }
+        }
+        public void abrirArchivo(BufferedReader lector) throws IOException {
+            String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
+            boolean dentroArchivo = true;
+            while (dentroArchivo) {
+                System.out.println("\nArchivo abierto para el curso: " + this.nombreCurso);
+                System.out.println("1. Volver al menú principal y eliminar archivo");
+                System.out.print("Elija una opción: ");
+
+                int opcion = Integer.parseInt(lector.readLine());
+
+                if (opcion == 1) {
+                    this.eliminarArchivo(filePath); // Llamada al método eliminar
+                    dentroArchivo = false;
+                } else {
+                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                }
+            }
+        }
+        String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
+        public void eliminarArchivo(String filePath) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("Archivo eliminado exitosamente.");
+                } else {
+                    System.out.println("No se pudo eliminar el archivo.");
+                }
+            } else {
+                System.out.println("El archivo no existe.");
+            }
+        }
+
+
+
+
     }
 

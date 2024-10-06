@@ -6,6 +6,7 @@ package com.mycompany.gestionasistencia;
 
 import com.mycompany.gestionasistencia.AlumnoNoEncontradoException;
 import com.mycompany.gestionasistencia.Curso;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +22,7 @@ public class VentanaModificarAlumno extends javax.swing.JFrame {
     public VentanaModificarAlumno(Curso curso) {
         initComponents();
         this.curso = curso;
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -120,29 +122,32 @@ public class VentanaModificarAlumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // modificar el nombre de un alumno del curso
         try{
             curso.modificarAlumno(1);
-        } catch (AlumnoNoEncontradoException e){
+        } catch (AlumnoNoEncontradoException e){ // Si no se encuentra muestra un mensaje
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        setVisible(false);
+        setVisible(false); //se cierra la ventana
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // modificar el correo de un alumno del curso
         try {
             curso.modificarAlumno(2);
-        } catch (AlumnoNoEncontradoException e) {
+        } catch (AlumnoNoEncontradoException e) { //Si el alumno no se encuentra se muestra un mensaje
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // modificar el telefono del tutor de un alumno
         try {
             curso.modificarAlumno(3);
-        } catch (AlumnoNoEncontradoException e) {
+        } catch (AlumnoNoEncontradoException e) { //si el alumno no esta se muestra un mensaje
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed

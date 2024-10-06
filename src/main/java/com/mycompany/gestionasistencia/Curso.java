@@ -193,16 +193,6 @@ public class Curso {
     public void modificar(int opcion){
         String rutAlum;
         boolean estaAlumno;
-        
-        System.out.println("-".repeat(50));
-        System.out.println(" ".repeat(13)+"Modificando "+nombreCurso);
-        System.out.println("-".repeat(50));
-        System.out.println("1. Asignar profesor jefe.");
-        System.out.println("2. Eliminar profesor jefe.");
-        System.out.println("3. Modificar datos alumno.");
-        System.out.println("4. Eliminar datos alumno.");
-        System.out.println("5. Salir al menú principal.");
-        System.out.print("Ingrese su opción: ");
 
         switch(opcion){
             case 1:

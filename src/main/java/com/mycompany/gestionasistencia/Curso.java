@@ -158,6 +158,18 @@ public class Curso {
     
     //DE AQUÍ EN ADELANTE SE DEBEN CAMBIAR ESTAS FUNCIONES Y ADAPTARLAS A VENTANAS
     
+    public Alumno estaAlumno(String rut){
+        Alumno alumnoActual;
+        for (int i = 0 ; i < alumnos.size() ; i++) {
+            alumnoActual = alumnos.get(i);
+            if (rut.equalsIgnoreCase(alumnoActual.getRut())) {
+                return alumnoActual;  // El alumno fue encontrado
+            }
+        }
+        return null;
+    }
+    
+    
     public void modAsistencia(String rut) throws IOException{
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         Alumno alumno = getAlumno(rut);
@@ -178,172 +190,115 @@ public class Curso {
         }
     }
     
-    public void modificar() throws IOException{
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        int opcion = 0;
+    public void modificar(int opcion){
         String rutAlum;
         boolean estaAlumno;
         
-        do {
-            switch(opcion){
-                case 1:
-                    if (this.profesorJefe == null){
-                        System.out.print("Ingrese el nombre del profesor: ");
-                        String nombreProfe = lector.readLine();
-                        System.out.print("Ingrese el correo del profesor: ");
-                        String correoProfe = lector.readLine();
-                        System.out.print("Ingrese el RUT del profesor: ");
-                        String rutProfe = lector.readLine();
-                        System.out.print("Ingrese la especialidad del profesor: ");
-                        String especialidadProfe = lector.readLine();
-                        Profesor profe = new Profesor(nombreProfe, correoProfe, rutProfe, especialidadProfe);
-                        this.setProfesor(profe);
-                    }
-                    else{
-                        System.out.println("-".repeat(50));
-                        System.out.println("Ya hay un profesor asignado en este curso!");
-                        System.out.println("-".repeat(50));
-                    }
-                    break;
+        System.out.println("-".repeat(50));
+        System.out.println(" ".repeat(13)+"Modificando "+nombreCurso);
+        System.out.println("-".repeat(50));
+        System.out.println("1. Asignar profesor jefe.");
+        System.out.println("2. Eliminar profesor jefe.");
+        System.out.println("3. Modificar datos alumno.");
+        System.out.println("4. Eliminar datos alumno.");
+        System.out.println("5. Salir al menú principal.");
+        System.out.print("Ingrese su opción: ");
+
+        switch(opcion){
+            case 1:
+                if (this.profesorJefe == null){
+                    System.out.print("Ingrese el nombre del profesor: ");
+                    String nombreProfe = JOptionPane.showInputDialog("Ingrese el nombre del profesor:");
+
+                    System.out.print("Ingrese el correo del profesor: ");
+                    String correoProfe = JOptionPane.showInputDialog("Ingrese el correo del profesor");
+                    System.out.print("Ingrese el RUT del profesor: ");
+                    String rutProfe = JOptionPane.showInputDialog("Ingrese el rut del profesor");
+                    System.out.print("Ingrese la especialidad del profesor: ");
+                    String especialidadProfe = JOptionPane.showInputDialog("Ingrese la especialidad del profesor");
+                    Profesor profe = new Profesor(nombreProfe, correoProfe, rutProfe, especialidadProfe);
+                    this.profesorJefe = profe;
+                    JOptionPane.showMessageDialog(null, "El profesor fue asignado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "El curso ya tiene asignado un profesor", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                break;
+
+            case 2:
+                if (this.profesorJefe != null){
+                    this.profesorJefe = null;
                     
-                case 2:
-                    if (this.profesorJefe != null){
-                        this.profesorJefe = null;
-                        System.out.println("-".repeat(50));
-                        System.out.println("Profesor eliminado correctamente.");
-                        System.out.println("-".repeat(50));
-                    }
-                    else{
-                        System.out.println("-".repeat(50));
-                        System.out.println("No hay un profesor asignado.");
-                        System.out.println("-".repeat(50));
-                    }
-                    break;
+                    JOptionPane.showMessageDialog(null, "El profesor fue eliminado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     
-                case 3:
-                    System.out.print("Ingrese el RUT del alumno a modificar: ");
-                    rutAlum = lector.readLine();
-                    int opcionAlum = 0;
-                    estaAlumno = false;
-                    for (int i = 0 ; i < this.alumnos.size() ; i++){
-                        Alumno alum = this.alumnos.get(i);
-                        if (rutAlum.equals(alum.getRut())){
-                            estaAlumno = true;
-                            do {
-                                boolean validInput = false;
-                                System.out.println("1. Modificar nombre.");
-                                System.out.println("2. Modificar RUT.");
-                                System.out.println("3. Modificar correo.");
-                                System.out.println("4. Modificar teléfono de apoderado.");
-                                System.out.println("5. Volver.");
-  
-                                while (!validInput) {
-                                    try {
-                                        //El usuario ingresa la opcion que requiera
-                                        System.out.print("Ingrese su opción: ");
-                                        opcionAlum = Integer.parseInt(lector.readLine());
-                                        
-                                        // Se comprueba que sea una opcion valida
-                                        if (opcionAlum < 1 || opcionAlum > 5) {
-                                            System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 5.");
-                                        } else {
-                                            validInput = true;  
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("Entrada no válida. Por favor, ingrese un número entero.");
-                                    }
-                                }
-                                
-                                switch(opcionAlum){
-                                    case 1:
-                                        System.out.print("Ingrese el nuevo nombre: ");
-                                        String nuevoNombre = lector.readLine();
-                                        alum.setNombre(nuevoNombre);
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("Nombre modificado correctamente!");
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("");
-                                        break;
-                                    
-                                    case 2:
-                                        System.out.print("Ingrese el nuevo RUT: ");
-                                        String nuevoRut = lector.readLine();
-                                        alum.setRut(nuevoRut);
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("Rut modificado correctamente!");
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("");
-                                        break;
-                                        
-                                    case 3:
-                                        System.out.print("Ingrese el nuevo correo: ");
-                                        String nuevoCorreo = lector.readLine();
-                                        alum.setCorreo(nuevoCorreo);
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("Correo modificado correctamente!");
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("");
-                                        break;
-                                        
-                                    case 4:
-                                        System.out.print("Ingrese el nuevo teléfono: ");
-                                        int nuevoTelefono = Integer.parseInt(lector.readLine());
-                                        alum.setNumTutor(nuevoTelefono);
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("Teléfono de apoderado modificado correctamente!");
-                                        System.out.println("-".repeat(50));
-                                        System.out.println("");
-                                        break;
-                                }
-                            } while (opcionAlum != 5);
-                            System.out.println("-".repeat(50));
-                            System.out.println("Volviendo a menú de curso...");
-                            System.out.println("-".repeat(50));
-                            System.out.println("");
-                            break;
-                        }
-                    }
+                }
+                else{
                     
-                    if (!estaAlumno){
-                        System.out.println("-".repeat(50));
-                        System.out.println("El RUT ingresado no existe.");
-                        System.out.println("-".repeat(50));
-                        System.out.println("");
-                    }
-                    break;
- 
-                case 4:
-                    System.out.print("Ingrese el RUT del alumno a ELIMINAR: ");
-                    rutAlum = lector.readLine();
-                    estaAlumno = false;
-                    for (int i = 0 ; i < this.alumnos.size() ; i++){
-                        Alumno alum = this.alumnos.get(i);
-                        if (rutAlum.equals(alum.getRut())){
-                            estaAlumno = true;
-                            this.alumnos.remove(i);
-                            System.out.println("-".repeat(50));
-                            System.out.println("Alumno eliminado correctamente!");
-                            System.out.println("-".repeat(50));
-                            System.out.println("");
-                        }
-                    }
+                    JOptionPane.showMessageDialog(null, "El curso no tiene asignado un profesor", "ERROR", JOptionPane.WARNING_MESSAGE);
                     
-                    if (!estaAlumno){
-                        System.out.println("-".repeat(50));
-                        System.out.println("El RUT ingresado no existe.");
-                        System.out.println("-".repeat(50));
-                        System.out.println("");
-                    }   
-                    break;
-                    
-            }
-            
-        } while (opcion != 5);
+                }
+                break;
+
+            case 3:
+                System.out.print("Ingrese el RUT del alumno a ELIMINAR: ");
+                rutAlum = JOptionPane.showInputDialog("Ingrese el rut del alumno");
+                estaAlumno = false;
+                for (int i = 0 ; i < this.alumnos.size() ; i++){
+                    Alumno alum = this.alumnos.get(i);
+                    if (rutAlum.equals(alum.getRut())){
+                        estaAlumno = true;
+                        this.alumnos.remove(i);
+                        JOptionPane.showMessageDialog(null, "Se elimino correctamente el alumno", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+                if (!estaAlumno){
+                    System.out.println("-".repeat(50));
+                    JOptionPane.showMessageDialog(null, "El alumno ingresado no existe en el curso", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    System.out.println("-".repeat(50));
+                    System.out.println("");
+                }   
+                break;
+
+        }
+
+
         System.out.println("-".repeat(50));
         System.out.println("Saliendo al menú principal...");
         System.out.println("-".repeat(50));
-        System.out.println("");      
+        System.out.println("");
+    }
+    
+    
+    public void modificarAlumno(int opcionAlum) throws AlumnoNoEncontradoException{
+        String rutAlum;
+        String nombreNuevo;
+        String correoNuevo;
+        int numTutorNuevo;
+        
+        System.out.print("Ingrese el RUT del alumno a modificar: ");
+        rutAlum = JOptionPane.showInputDialog("Ingrese el rut del alumno a modificar");
+        Alumno alumnoMod = estaAlumno(rutAlum);
+        if (alumnoMod == null){ //Si el alumno no esta finaliza el metodo y muestra mensaje
+            throw new AlumnoNoEncontradoException("El alumno que ingreso no se encuentra entre los registros");
         }
+        switch(opcionAlum){
+            case 1: //modificar nombre del alumno
+                nombreNuevo = JOptionPane.showInputDialog("Ingrese nuevo nombre:");
+                alumnoMod.setNombre(nombreNuevo);
+                break;
+            case 2: //modificar correo del alumno
+                correoNuevo = JOptionPane.showInputDialog("Ingrese nuevo correo:");
+                alumnoMod.setCorreo(correoNuevo);
+                break;
+            case 3: //modificar numero de telefono del tutor
+                numTutorNuevo = Integer.parseInt(JOptionPane.showInputDialog("Ingrese nuevo numero de telefono del tutor:"));
+                alumnoMod.setNumTutor(numTutorNuevo);
+                break;
+                
+                
+        }
+    }
 
 
     public void escribirArchivoAlumnos() {

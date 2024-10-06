@@ -224,6 +224,20 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
 
     private void botonModificarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarCursoActionPerformed
         // TODO add your handling code here:
+        // Solicitar el nombre del alumno
+        String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):").toLowerCase();
+        VentanaModificarDatos ventana;
+        // Verificar si el nombre es válido
+        if (nombreCurso != null && cursos.containsKey(nombreCurso)) {
+            cursoActual = (Curso) cursos.get(nombreCurso);
+            ventana = new VentanaModificarDatos(cursoActual);
+            ventana.setVisible(true);
+            ventana.setLocationRelativeTo(null);
+        }
+        else if (nombreCurso != null && !cursos.containsKey(nombreCurso)){
+            JOptionPane.showMessageDialog(this, "Curso no válido.", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        ventana = null;
     }//GEN-LAST:event_botonModificarCursoActionPerformed
 
     private void botonSalirDelProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirDelProgramaActionPerformed

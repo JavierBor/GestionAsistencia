@@ -63,6 +63,6 @@ public class Alumno extends MiembroEstablecimiento{
     @Override
     public void agregarInformacion(DefaultTableModel modelo){
         modelo.addRow(new Object[]{nombre, rut, correo, numTutor, 
-                      asistencia.getAsists(), asistencia.getFaltas(), asistencia.getAtrasos(), asistencia.getRetiros()});
+                      asistencia.getNAsistencia(), asistencia.getNFaltas(), asistencia.getNAtrasos(), asistencia.getNRetiros()});
     }
 }

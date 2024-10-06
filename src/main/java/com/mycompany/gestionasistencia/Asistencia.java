@@ -18,27 +18,47 @@ public class Asistencia {
         asistencia = new HashMap<>();
     }
     
-    public int getAsists(){
+    //getters
+    public int getNAsistencia(){
         return nAsistencia;
     }
     
-    public int getFaltas(){
+    public int getNFaltas(){
         return nFaltas;
     }
     
-    public int getAtrasos(){
+    public int getNAtrasos(){
         return nAtrasos;
     }
     
-    public int getRetiros(){
+    public int getNRetiros(){
         return nRetiros;
     }
     
-    public boolean yaRegistrada(String fecha){
+    // setters
+    public void setNAsistencia(int nAsistencia){
+        this.nAsistencia = nAsistencia;
+    }
+    
+    public void setNFaltas(int nFaltas){
+        this.nFaltas = nFaltas;
+    }
+    
+    public void setNAtrasos(int nAtrasos){
+        this.nAtrasos = nAtrasos;
+    }
+    
+    public void setNRetiros(int nRetiros){
+        this.nRetiros = nRetiros;
+    }
+    
+    
+    // metodos
+    public boolean yaRegistrada(String fecha){ // metodo para saber si ya se paso la asistencia en algun dua en especifico
         return asistencia.get(fecha) != null;
     }
     
-    public void modificar(String fecha, int opcion) throws IOException{
+    public void modificar(String fecha, int opcion) throws IOException{ //marcar presente o ausente al pasar lista
         String estado = "";
         if (opcion == 1){
             this.nAsistencia++;
@@ -51,7 +71,7 @@ public class Asistencia {
         asistencia.put(fecha, estado);
     }
     
-    public void modificar(String fecha, String nuevoEstado) {
+    public void modificar(String fecha, String nuevoEstado) { //modificar la asistencia de un dia ya registrado
   
         String estadoAnterior = asistencia.get(fecha);
         if (estadoAnterior != null) {
@@ -84,19 +104,11 @@ public class Asistencia {
 
         } else {
 
-            System.out.println("Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.");
+            //System.out.println("Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.");
         }
     }
 
-    public String obtenerInfo(String fecha){
+    public String obtenerInfo(String fecha){ //Saber el estado de un alumno en un dia específico
         return asistencia.get(fecha);
-    }
-    
-    public void mostrarRegistros(){
-        System.out.println("Estadísticas de Asistencia:");
-        System.out.println("Presente:" + this.nAsistencia);
-        System.out.println("Ausente:" + this.nFaltas);
-        System.out.println("Atrasos:" + this.nAtrasos);
-        System.out.println("Retiros:" + this.nRetiros);
     }
 }

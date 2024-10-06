@@ -105,10 +105,10 @@ public class Curso {
                              "RUT: "+alumno.getRut() + "\n" +
                              "Correo: "+alumno.getCorreo() + "\n" +
                              "Cel. Apoderado: "+alumno.getNumTutor()+ "\n" +
-                             "Asistencias: "+asist.getAsists()+ "\n" +
-                             "Faltas: "+asist.getFaltas()+ "\n" +
-                             "Atrasos: "+asist.getAtrasos()+ "\n" +
-                             "Retiros: "+asist.getRetiros()+ "\n";
+                             "Asistencias: "+asist.getNAsistencia()+ "\n" +
+                             "Faltas: "+asist.getNFaltas()+ "\n" +
+                             "Atrasos: "+asist.getNAtrasos()+ "\n" +
+                             "Retiros: "+asist.getNRetiros()+ "\n";
             JOptionPane.showMessageDialog(null, mensaje, "Información del Alumno", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
@@ -133,8 +133,8 @@ public class Curso {
         DefaultTableModel modelo = (DefaultTableModel)listadoRiesgo.getModel();
         boolean hayAlumnosEnRiesgo = false;
         for (Alumno alumno : alumnos) {
-            int asistencias = alumno.getAsistencia().getAsists();
-            int totalDias = asistencias + alumno.getAsistencia().getFaltas();
+            int asistencias = alumno.getAsistencia().getNAsistencia();
+            int totalDias = asistencias + alumno.getAsistencia().getNFaltas();
 
             if (totalDias > 0) {
                 double porcentajeAsistencia = (asistencias / (double) totalDias) * 100;

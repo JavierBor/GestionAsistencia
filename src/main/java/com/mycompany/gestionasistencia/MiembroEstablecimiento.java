@@ -1,5 +1,7 @@
 package com.mycompany.gestionasistencia;
 
+import javax.swing.table.DefaultTableModel;
+
 public class MiembroEstablecimiento{
     protected String nombre;
     protected String correo;
@@ -38,10 +40,8 @@ public class MiembroEstablecimiento{
     }
     
     // Métodos a sobrescribir en subclases
-    public void mostrarInformacion(){
-        System.out.println(nombre);
-        System.out.println(rut);
-        System.out.println(correo);
+    public void agregarInformacion(DefaultTableModel modelo){
+        modelo.addRow(new Object[]{nombre, rut, correo});
     }
 }
 

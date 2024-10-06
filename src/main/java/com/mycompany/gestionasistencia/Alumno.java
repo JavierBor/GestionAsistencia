@@ -1,5 +1,7 @@
 package com.mycompany.gestionasistencia;
 import java.io.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Alumno extends MiembroEstablecimiento{
     private int numTutor;
@@ -16,54 +18,51 @@ public class Alumno extends MiembroEstablecimiento{
         return numTutor;
     }
     
+    public Asistencia getAsistencia(){
+        return asistencia;
+    }
+    
     //SETTERS
     public void setNumTutor(int numTutor){
         this.numTutor = numTutor;
     }
     
-    //MÉTODOS
-    // (1) Presente (2) Ausente
-    public void registrar(String fecha) throws IOException{
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        int opcion;
-        do {
-            System.out.println("-".repeat(60));
-            System.out.println("RUT: "+this.rut);
-            System.out.println("Alumno: "+this.nombre);
-            System.out.println("1. Presente");
-            System.out.println("2. Ausente");
-            System.out.print("Ingrese su opción: ");
-            opcion = Integer.parseInt(lector.readLine());
-            System.out.println("-".repeat(60));
-            
-            
-            if (opcion != 1 && opcion != 2){
-                System.out.println("Solo puede ingresar Presente (1) o Ausente (2). Intente denuevo...");
-            }
-            else{
-                System.out.println("Registrado correctamente!");
-            }
-        } while (opcion != 1 && opcion != 2);
-        asistencia.modificar(fecha, opcion);
+    public void registrar(String fecha) throws IOException {
+        // Usar JOptionPane para mostrar información del alumno
+        String mensaje = "RUT: " + this.rut + "\n" +
+                         "Alumno: " + this.nombre + "\n";
+
+        // Usar un cuadro de diálogo para que el usuario seleccione la asistencia
+        String[] opciones = {"Presente", "Ausente"};
+        int opcion = JOptionPane.showOptionDialog(null, mensaje, 
+            "Registrar Asistencia", JOptionPane.DEFAULT_OPTION, 
+            JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+
+        // Verificar si se canceló la acción
+        if (opcion == JOptionPane.CLOSED_OPTION) {
+            return; // Si el usuario cierra el cuadro, no se hace nada
+        }
+
+        // Asignar la opción de presente (1) o ausente (2)
+        int registroOpcion = opcion + 1; // Convertir de 0-1 a 1-2
+
+        // Mensaje de confirmación
+        JOptionPane.showMessageDialog(null, "Registrado correctamente!");
+
+        // Llamar al método modificar en el objeto asistencia
+        asistencia.modificar(fecha, registroOpcion); 
     }
     
     // Especificar estado (Presente, Ausente, Atraso o Retiro)
-    public void registrar(String fecha, String estado){
+    public void registrar(String fecha, String estado){ 
         asistencia.modificar(fecha, estado);
     }
     
-    public Asistencia getAsistencia() {
-    return asistencia;
-    }
 
     // Muestra datos de la asistencia del alumno
     @Override
-    public void mostrarInformacion(){
-        System.out.println("RUT: "+rut);
-        System.out.println("Nombre Alumno: "+nombre);
-        System.out.println("Telefono Apoderado: "+numTutor);
-        System.out.println("Correo Institucional: "+correo);
-        System.out.println("");
-        asistencia.mostrarRegistros();
+    public void agregarInformacion(DefaultTableModel modelo){
+        modelo.addRow(new Object[]{nombre, rut, correo, numTutor, 
+                      asistencia.getAsists(), asistencia.getFaltas(), asistencia.getAtrasos(), asistencia.getRetiros()});
     }
 }

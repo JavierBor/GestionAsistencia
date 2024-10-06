@@ -34,11 +34,8 @@ public class Asistencia {
         return nRetiros;
     }
     
-    public String getAsistencia(String fecha){
-        if (asistencia.get(fecha) == null){
-            asistencia.put(fecha, "No registrada.");
-        }
-        return asistencia.get(fecha);
+    public boolean yaRegistrada(String fecha){
+        return asistencia.get(fecha) != null;
     }
     
     public void modificar(String fecha, int opcion) throws IOException{

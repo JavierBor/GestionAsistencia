@@ -1,5 +1,7 @@
 package com.mycompany.gestionasistencia;
 
+import javax.swing.table.DefaultTableModel;
+
 public class Profesor extends MiembroEstablecimiento{
     private String especialidad;
     
@@ -20,10 +22,7 @@ public class Profesor extends MiembroEstablecimiento{
     
     //MÉTODOS PROPIOS
     @Override
-    public void mostrarInformacion(){
-        System.out.println("RUT: "+rut);
-        System.out.println("Nombre Profesor: "+nombre);
-        System.out.println("Especialidad: "+especialidad);
-        System.out.println("Correo Institucional: "+correo);
+    public void agregarInformacion(DefaultTableModel modelo){
+        modelo.addRow(new Object[]{nombre, rut, correo, especialidad}); 
     }
 }

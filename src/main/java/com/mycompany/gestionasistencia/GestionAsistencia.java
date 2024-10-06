@@ -14,7 +14,7 @@ public class GestionAsistencia {
         cursos.put("tercero medio", new Curso("tercero medio"));
         cursos.put("cuarto medio", new Curso("cuarto medio"));
 
-        
+        //Poblarlos manualmente
         try {
             // Alumnos para Primero Medio
             cursos.get("primero medio").agregarAlumno("Juan Caceres", "juan.caceres@mail.com", "21442863-9", 937868948);
@@ -40,9 +40,11 @@ public class GestionAsistencia {
             System.out.println(e.getMessage());
         }
                 
+        //Poblar con el archivo de GitHub
         String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
         cargarAlumnosDesdeURL(urlArchivo, cursos);
         
+        //Llamar a la ventana principal
         VentanaMenuPrincipal ventana = new VentanaMenuPrincipal(cursos);
         ventana.setVisible(true);
         ventana.setLocationRelativeTo(null);

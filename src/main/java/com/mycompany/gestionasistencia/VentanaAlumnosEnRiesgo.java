@@ -4,11 +4,14 @@ import javax.swing.*;
 public class VentanaAlumnosEnRiesgo extends javax.swing.JFrame {
     private Curso curso;
 
+    //Configuración para mostrar la ventana
     public VentanaAlumnosEnRiesgo(Curso cursoActual) {       
         initComponents();
         this.curso = cursoActual;
+        setTitle("Registros "+curso.getNombreCurso());
         tituloCurso.setText("Alumnos en riesgo de "+curso.getNombreCurso());
-        listadoRiesgo = curso.mostrarAlumnosEnRiesgo(listadoRiesgo);
+        //Llamada a métodos para poblar las JTable y que se vean bien
+        listadoRiesgo = curso.mostrarAlumnosEnRiesgo(listadoRiesgo, jLabel4);
         datosProfesor = curso.mostrarDatosProfe(datosProfesor, jLabel3);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -87,10 +90,10 @@ public class VentanaAlumnosEnRiesgo extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tituloCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,8 +104,8 @@ public class VentanaAlumnosEnRiesgo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)

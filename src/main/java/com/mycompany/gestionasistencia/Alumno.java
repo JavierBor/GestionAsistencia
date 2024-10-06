@@ -27,33 +27,42 @@ public class Alumno extends MiembroEstablecimiento{
         this.numTutor = numTutor;
     }
     
+    //Para pasar lista normalmente
     public void registrar(String fecha) throws IOException {
-        // Usar JOptionPane para mostrar información del alumno
+        //Mostraremos los datos del alumno en un mensajito
         String mensaje = "RUT: " + this.rut + "\n" +
                          "Alumno: " + this.nombre + "\n";
 
-        // Usar un cuadro de diálogo para que el usuario seleccione la asistencia
+        //Las opciones para que el usuario elija
         String[] opciones = {"Presente", "Ausente"};
-        int opcion = JOptionPane.showOptionDialog(null, mensaje, 
-            "Registrar Asistencia", JOptionPane.DEFAULT_OPTION, 
-            JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+        int opcion;
 
-        // Verificar si se canceló la acción
-        if (opcion == JOptionPane.CLOSED_OPTION) {
-            return; // Si el usuario cierra el cuadro, no se hace nada
-        }
+        //Mantendremos la ventana abierta hasta que se seleccione una opción
+        //Se hará para evitar NO registrar a un alumno correctamente
+        do{
+            //Mostraremos las opciones validas
+            opcion = JOptionPane.showOptionDialog(null, mensaje, 
+                     "Registrar Asistencia", JOptionPane.DEFAULT_OPTION, 
+                     JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
 
-        // Asignar la opción de presente (1) o ausente (2)
-        int registroOpcion = opcion + 1; // Convertir de 0-1 a 1-2
+            //Verificamos si el usuario presionó la 'X' para cerrar
+            if (opcion == JOptionPane.CLOSED_OPTION){
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una opción para continuar.", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+            }
+        } while (opcion == JOptionPane.CLOSED_OPTION);
 
-        // Mensaje de confirmación
+        
+        //Asignar la opción de presente (1) o ausente (2)
+        int registroOpcion = opcion + 1; //Convertir de 0-1 a 1-2
+
+        //Mensaje de confirmación
         JOptionPane.showMessageDialog(null, "Registrado correctamente!");
 
-        // Llamar al método modificar en el objeto asistencia
-        asistencia.modificar(fecha, registroOpcion); 
+        //Llamar al método modificar en el objeto asistencia
+        asistencia.modificar(fecha, registroOpcion);
     }
     
-    // Especificar estado (Presente, Ausente, Atraso o Retiro)
+    //Modificar a estado especifico (Presente, Ausente, Atraso o Retiro)
     public void registrar(String fecha, String estado){ 
         asistencia.modificar(fecha, estado);
     }

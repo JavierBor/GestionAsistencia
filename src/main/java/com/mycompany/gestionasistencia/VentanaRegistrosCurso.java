@@ -7,6 +7,7 @@ public class VentanaRegistrosCurso extends javax.swing.JFrame {
     public VentanaRegistrosCurso(Curso cursoActual) {
         initComponents();
         this.curso = cursoActual;
+        setTitle("Registros "+curso.getNombreCurso());
         tituloCurso.setText("Registros "+curso.getNombreCurso());
         listadoAlumnos = curso.mostrarRegistroAlumno(listadoAlumnos);
         datosProfesor = curso.mostrarDatosProfe(datosProfesor, jLabel3);
@@ -119,8 +120,8 @@ public class VentanaRegistrosCurso extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)

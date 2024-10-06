@@ -1,5 +1,4 @@
 package com.mycompany.gestionasistencia;
-
 import javax.swing.table.DefaultTableModel;
 
 public class MiembroEstablecimiento{

@@ -1,12 +1,12 @@
 package com.mycompany.gestionasistencia;
-
+import java.awt.Dimension;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Curso {
+    //Atributos y constructor
     private String nombreCurso;
     private List<Alumno> alumnos;
     private Profesor profesorJefe;
@@ -51,16 +51,16 @@ public class Curso {
     //Agregar a un alumno nuevo
     public void agregarAlumno(String nombre, String correo, String rut, int numTutor) throws AlumnoRepetidoException{
         Alumno nuevoAlumno = getAlumno(rut);
-        if (nuevoAlumno == null){
+        if (nuevoAlumno == null){ //Se creará un Objeto Alumno con sus atributos ingresados
             nuevoAlumno = new Alumno(nombre, correo, rut, numTutor);
-            alumnos.add(nuevoAlumno);
+            alumnos.add(nuevoAlumno); //Se agregará a la lista del curso
         }
-        else{
+        else{ //En caso de estar repetído, mostraremos este mensaje
             throw new AlumnoRepetidoException("El alumno ya fue registrado anteriormente");
         }
     }
     
-    //Para pasar lista normalmente
+    //Para pasar la lista de todo el curso
     public void modAsistencia() throws IOException {
         Alumno alumno;
         int fechaVista = 0; //Servirá para condicionales
@@ -68,20 +68,19 @@ public class Curso {
 
         if (fecha != null && !fecha.isEmpty()) {
             for (int i = 0; i < alumnos.size(); i++) {
-                alumno = alumnos.get(i);
-                if (alumno.getAsistencia().yaRegistrada(fecha)){
+                alumno = alumnos.get(i); //Conseguiremos los alumnos uno por uno
+                if (alumno.getAsistencia().yaRegistrada(fecha)){ //En caso de existir la fecha, mostraremos esto
                     JOptionPane.showMessageDialog(null, "Fecha ya registrada.", "Error!", JOptionPane.ERROR_MESSAGE);  
                     fechaVista = 1;
                     break;
                 }         
-                alumno.registrar(fecha);
+                alumno.registrar(fecha); //En caso de continuar el ciclo, se registrará su asistencia uno por uno
             }
 
-            if (fechaVista == 0){
+            if (fechaVista == 0){ //Mostraremos el mensaje de éxito
                 JOptionPane.showMessageDialog(null, "Asistencia registrada para todos los alumnos.");
             }
-        } else {
-            // Manejar el caso en que no se ingresa una fecha válida
+        } else { //Mensaje para cuando la fecha no es valida o ya existe
             JOptionPane.showMessageDialog(null, "Fecha no válida. Por favor, intente de nuevo.");
         }
     }   
@@ -89,9 +88,9 @@ public class Curso {
     //Mostrará los datos de cada uno de los alumnos del curso
     public JTable mostrarRegistroAlumno(JTable listado){
         DefaultTableModel modelo = (DefaultTableModel)listado.getModel();
-        for (int i = 0 ; i < alumnos.size() ; i++){
+        for (int i = 0 ; i < alumnos.size() ; i++){ //Se agregarán todos los alumnos del curso
             Alumno alum = (Alumno) alumnos.get(i);
-            alum.agregarInformacion(modelo);
+            alum.agregarInformacion(modelo); //Método Override de clase padre
         }    
         return listado;
     }
@@ -99,7 +98,7 @@ public class Curso {
     //Mostrará datos del alumno individualmente a través de su rut
     public void mostrarRegistroAlumno(String rutAlumno){
         Alumno alumno = (Alumno) this.getAlumno(rutAlumno);                           
-        if (alumno != null){                               
+        if (alumno != null){ //Se agregarán los atributos del alumno y sus estadísticas              
             Asistencia asist = alumno.getAsistencia();
             String mensaje = "Nombre: "+alumno.getNombre() + "\n" +
                              "RUT: "+alumno.getRut() + "\n" +
@@ -111,8 +110,8 @@ public class Curso {
                              "Retiros: "+asist.getNRetiros()+ "\n";
             JOptionPane.showMessageDialog(null, mensaje, "Información del Alumno", JOptionPane.INFORMATION_MESSAGE);
         }
-        else{
-            JOptionPane.showMessageDialog(null, "RUT no existe!", "Error!", JOptionPane.ERROR_MESSAGE);
+        else{ //En caso de no existir, mostraremos el siguiente mensaje
+            JOptionPane.showMessageDialog(null, "RUT no encontrado o invalido.", "Error!", JOptionPane.ERROR_MESSAGE);
         } 
     }
     
@@ -120,7 +119,7 @@ public class Curso {
     public JTable mostrarDatosProfe(JTable profe, JLabel label){
         DefaultTableModel modelo = (DefaultTableModel)profe.getModel(); //Conseguimos el modelo de los datos de JTable
         if (profesorJefe != null){
-            profesorJefe.agregarInformacion(modelo); //Con esto podríamos mostrar su información
+            profesorJefe.agregarInformacion(modelo); //Método Override de clase padre
         }
         else{
             label.setText("Profesor a cargo (No asignado)"); //En caso de no habre un profesor, ponemos este mensajito
@@ -129,185 +128,155 @@ public class Curso {
     }
     
     //Mostrará los alumnos que no cumplan el requisito mínimo de asistencia <70%
-    public JTable mostrarAlumnosEnRiesgo(JTable listadoRiesgo) {
+    public JTable mostrarAlumnosEnRiesgo(JTable listadoRiesgo, JLabel tituloCurso) {
         DefaultTableModel modelo = (DefaultTableModel)listadoRiesgo.getModel();
         boolean hayAlumnosEnRiesgo = false;
-        for (Alumno alumno : alumnos) {
+        for (Alumno alumno : alumnos){ //Se recorrerá la lista de alumnos y se sacará su porcentaje
             int asistencias = alumno.getAsistencia().getNAsistencia();
             int totalDias = asistencias + alumno.getAsistencia().getNFaltas();
 
-            if (totalDias > 0) {
+            if (totalDias > 0){ //Solo valido para 1 o más días de asistencia
                 double porcentajeAsistencia = (asistencias / (double) totalDias) * 100;
-                if (porcentajeAsistencia < 70) {
+                tituloCurso.setText("Alumnos en riesgo (Días impartidos: "+totalDias+")");
+                if (porcentajeAsistencia < 70){
                     hayAlumnosEnRiesgo = true;
                     modelo.addRow(new Object[]{alumno.getNombre(), alumno.getRut(), alumno.getCorreo(), alumno.getNumTutor(), (int)porcentajeAsistencia+"%"});
                 }
             }
         }
         
-        //En caso de no haber alumnos, mostraremos el siguiente mensaje:
+        //En caso de no haber alumnos en riesgo, mostraremos el siguiente mensaje
         if (!hayAlumnosEnRiesgo){
-            String mensaje = "No hay alumnos en riesgo registrados!";
+            String mensaje = "No hay alumnos en riesgo registrados.";
             JOptionPane.showMessageDialog(null, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
         }
         
         return listadoRiesgo;
     }
-    
-    
-    
-    //DE AQUÍ EN ADELANTE SE DEBEN CAMBIAR ESTAS FUNCIONES Y ADAPTARLAS A VENTANAS
-    
-    public Alumno estaAlumno(String rut){
-        Alumno alumnoActual;
-        for (int i = 0 ; i < alumnos.size() ; i++) {
-            alumnoActual = alumnos.get(i);
-            if (rut.equalsIgnoreCase(alumnoActual.getRut())) {
-                return alumnoActual;  // El alumno fue encontrado
-            }
-        }
-        return null;
-    }
-    
-    
-    public void modAsistencia(String rut) throws IOException {
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        Alumno alumno = estaAlumno(rut); // Verifica si el alumno existe en el curso
 
-        if (alumno != null) {
-            String fecha = JOptionPane.showInputDialog("Ingrese la fecha actual (dd/mm/aaaa):");
-
-            if (fecha != null) {
-                // Verifica si la fecha ya está registrada
-                if (!(alumno.getAsistencia().yaRegistrada(fecha))) {
-                    JOptionPane.showMessageDialog(null, "La fecha ya está registrada. No se puede modificar la asistencia.", "Error!", JOptionPane.ERROR_MESSAGE);
-                    return; // Salimos del método si la fecha ya está registrada
-                }
-
-                // Solicita el nuevo estado de asistencia
-                String estado = JOptionPane.showInputDialog("Ingrese el nuevo estado (Presente/Ausente/Atrasado/Retirado)");
-
-                if (estado != null && (estado.equalsIgnoreCase("Presente") ||
-                        estado.equalsIgnoreCase("Ausente") ||
-                        estado.equalsIgnoreCase("Atrasado") ||
-                        estado.equalsIgnoreCase("Retirado"))) {
-
-                    // Registra el nuevo estado
-                    alumno.registrar(fecha, estado);
-                    JOptionPane.showMessageDialog(null, "Asistencia modificada exitosamente.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.", "Error!", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "La fecha no puede ser nula.", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontró el alumno con RUT: " + rut, "Error!", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    public void modificar(int opcion){
+    //Función para modificar caracteristicas de un curso
+    public void modificarCurso(int opcion){
         String rutAlum;
         boolean estaAlumno;
 
         switch(opcion){
-            case 1:
+            case 1: //Asignar un profesor jefe al curso (Preguntando por sus atributos)
                 if (this.profesorJefe == null){
-                    System.out.print("Ingrese el nombre del profesor: ");
                     String nombreProfe = JOptionPane.showInputDialog("Ingrese el nombre del profesor:");
-
-                    System.out.print("Ingrese el correo del profesor: ");
-                    String correoProfe = JOptionPane.showInputDialog("Ingrese el correo del profesor");
-                    System.out.print("Ingrese el RUT del profesor: ");
-                    String rutProfe = JOptionPane.showInputDialog("Ingrese el rut del profesor");
-                    System.out.print("Ingrese la especialidad del profesor: ");
-                    String especialidadProfe = JOptionPane.showInputDialog("Ingrese la especialidad del profesor");
-                    Profesor profe = new Profesor(nombreProfe, correoProfe, rutProfe, especialidadProfe);
-                    this.profesorJefe = profe;
-                    JOptionPane.showMessageDialog(null, "El profesor fue asignado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    if (nombreProfe == null) return;
+                    if (!nombreProfe.isEmpty()){
+                        String correoProfe = JOptionPane.showInputDialog("Ingrese el correo del profesor");
+                        if (correoProfe == null) return;
+                        if (!correoProfe.isEmpty()){
+                            String rutProfe = JOptionPane.showInputDialog("Ingrese el rut del profesor");
+                            if (rutProfe == null) return;
+                            if (!rutProfe.isEmpty()){
+                                String especialidadProfe = JOptionPane.showInputDialog("Ingrese la especialidad del profesor");
+                                if (especialidadProfe == null) return;
+                                if (!especialidadProfe.isEmpty()){
+                                    Profesor profe = new Profesor(nombreProfe, correoProfe, rutProfe, especialidadProfe);
+                                    this.profesorJefe = profe;
+                                    JOptionPane.showMessageDialog(null, "El profesor fue asignado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(null, "Ingrese una especialidad valida.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Ingrese un RUT valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Ingrese un correo valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }  
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Ingrese un nombre valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "El curso ya tiene asignado un profesor", "ERROR", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "El curso ya tiene asignado un profesor", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
 
-            case 2:
+            case 2: //Eliminar profesor del curso
                 if (this.profesorJefe != null){
-                    this.profesorJefe = null;
-                    
-                    JOptionPane.showMessageDialog(null, "El profesor fue eliminado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    
+                    this.profesorJefe = null; //En caso de haber un profesor, se igualará a null
+                    JOptionPane.showMessageDialog(null, "El profesor fue eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);     
                 }
                 else{
-                    
-                    JOptionPane.showMessageDialog(null, "El curso no tiene asignado un profesor", "ERROR", JOptionPane.WARNING_MESSAGE);
-                    
+                    JOptionPane.showMessageDialog(null, "El curso no tiene asignado un profesor.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
 
-            case 3:
-                System.out.print("Ingrese el RUT del alumno a ELIMINAR: ");
+            case 3: //Eliminar alumno del curso a través del RUT
                 rutAlum = JOptionPane.showInputDialog("Ingrese el rut del alumno");
+                if (rutAlum == null) return;
                 estaAlumno = false;
-                for (int i = 0 ; i < this.alumnos.size() ; i++){
+                for (int i = 0 ; i < this.alumnos.size() ; i++){ //Se recorrerá para encontrar al alumno
                     Alumno alum = this.alumnos.get(i);
                     if (rutAlum.equals(alum.getRut())){
                         estaAlumno = true;
-                        this.alumnos.remove(i);
+                        this.alumnos.remove(i); //Se eliminará por completo el alumno
                         JOptionPane.showMessageDialog(null, "Se elimino correctamente el alumno", "Aviso", JOptionPane.WARNING_MESSAGE);
                     }
                 }
 
-                if (!estaAlumno){
-                    System.out.println("-".repeat(50));
+                if (!estaAlumno){ //En caso de que no exista, mostraremos un mensaje
                     JOptionPane.showMessageDialog(null, "El alumno ingresado no existe en el curso", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    System.out.println("-".repeat(50));
-                    System.out.println("");
                 }   
                 break;
 
+            case 4: //Agregar un alumno nuevo (Preguntando sus atributos)
+                try{
+                    String nombre = JOptionPane.showInputDialog("Ingrese el nombre del alumno:").trim();
+                    if (nombre == null) return;
+                    if (!nombre.isEmpty()){
+                        String correo = JOptionPane.showInputDialog("Ingrese el correo del alumno:").trim();
+                        if (correo == null) return;
+                        if (!correo.isEmpty()){
+                            String rut = JOptionPane.showInputDialog("Ingrese el RUT del alumno:").trim();
+                            if (rut == null) return;
+                            if (!rut.isEmpty()){
+                                String numTutorString = JOptionPane.showInputDialog("Ingrese el teléfono del apoderado:").trim();
+                                numTutorString = numTutorString.replaceAll("\\s+", "");
+                                if (numTutorString == null) return;
+                                if (numTutorString.length() == 9){
+                                    try {
+                                        int numTutor = Integer.parseInt(numTutorString);
+                                        this.agregarAlumno(nombre, correo, rut, numTutor); // Se agrega el alumno
+                                        JOptionPane.showMessageDialog(null, "Alumno agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                    } catch (NumberFormatException e) {
+                                        JOptionPane.showMessageDialog(null, "Número no válido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(null, "El número debe tener 9 dígitos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "RUT no valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }                 
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Correo no valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Nombre no valido.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } 
+                //Si el alumno a ingresar tiene el mismo rut que alguno del curso salta un mensaje y no se ingresa
+                catch (AlumnoRepetidoException e){ 
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
         }
-
-
-        System.out.println("-".repeat(50));
-        System.out.println("Saliendo al menú principal...");
-        System.out.println("-".repeat(50));
-        System.out.println("");
     }
     
-    
-    public void modificarAlumno(int opcionAlum) throws AlumnoNoEncontradoException{
-        String rutAlum;
-        String nombreNuevo;
-        String correoNuevo;
-        int numTutorNuevo;
-        
-        System.out.print("Ingrese el RUT del alumno a modificar: ");
-        rutAlum = JOptionPane.showInputDialog("Ingrese el rut del alumno a modificar");
-        Alumno alumnoMod = estaAlumno(rutAlum);
-        if (alumnoMod == null){ //Si el alumno no esta finaliza el metodo y muestra mensaje
-            throw new AlumnoNoEncontradoException("El alumno que ingreso no se encuentra entre los registros");
-        }
-        switch(opcionAlum){
-            case 1: //modificar nombre del alumno
-                nombreNuevo = JOptionPane.showInputDialog("Ingrese nuevo nombre:");
-                alumnoMod.setNombre(nombreNuevo);
-                break;
-            case 2: //modificar correo del alumno
-                correoNuevo = JOptionPane.showInputDialog("Ingrese nuevo correo:");
-                alumnoMod.setCorreo(correoNuevo);
-                break;
-            case 3: //modificar numero de telefono del tutor
-                numTutorNuevo = Integer.parseInt(JOptionPane.showInputDialog("Ingrese nuevo numero de telefono del tutor:"));
-                alumnoMod.setNumTutor(numTutorNuevo);
-                break;
-                
-                
-        }
-    }
-
-
-        public void escribirArchivoAlumnos() {
+    //MÉTODOS PARA EL MANEJO CORRECTO DEL ARCHIVO
+    //Encargado de escribir el archivo con los alumnos del curso
+    public void escribirArchivoAlumnos() {
         String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("-".repeat(60));
@@ -328,19 +297,16 @@ public class Curso {
                 writer.write("-".repeat(60));
                 writer.newLine();
             }
-            // Mensaje de éxito utilizando JOptionPane
-            JOptionPane.showMessageDialog(null, "Lista de alumnos escrita exitosamente en el archivo.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            // Mensaje de error utilizando JOptionPane
             JOptionPane.showMessageDialog(null, "Ocurrió un error al escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Puedes mantener esto si deseas registrar el error en la consola
         }
     }
 
+    //Encargado de crear la ventana para mostrar el archivo
     public void abrirArchivo() throws IOException {
         String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
 
-        // Leer y mostrar contenido del archivo
+        //Leer y mostrar contenido del archivo
         StringBuilder contenidoArchivo = new StringBuilder();
         String linea;
         try (BufferedReader archivo = new BufferedReader(new FileReader(filePath))) {
@@ -352,18 +318,26 @@ public class Curso {
             return; // Salimos del método si hay un error
         }
 
-        // Mostrar contenido del archivo en un cuadro de diálogo
-        JOptionPane.showMessageDialog(null, contenidoArchivo.toString(), "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
+        //Crear un JTextArea con el contenido del archivo
+        JTextArea textArea = new JTextArea(contenidoArchivo.toString());
+        textArea.setEditable(false);     //Evitar edición del texto
+        textArea.setLineWrap(true);      // Ajustar líneas largas
+        textArea.setWrapStyleWord(true); // Ajustar por palabras completas
 
-        // No eliminamos el archivo aquí. Solo mostramos el contenido.
+        //Crear un JScrollPane para hacer el JTextArea desplazable
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(500, 400)); // Definir el tamaño de la ventana
+
+        // Mostrar el JScrollPane en un JOptionPane
+        JOptionPane.showMessageDialog(null, scrollPane, "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
+    //Encargado de eliminar el archivo una vez usado
     public void eliminarArchivo(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
             if (file.delete()) {
-                JOptionPane.showMessageDialog(null,"Volviendo al menu principal", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Volviendo al menu principal.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }

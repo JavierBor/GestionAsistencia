@@ -35,9 +35,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="pasarAsistencia" alignment="0" max="32767" attributes="0"/>
+                          <Component id="botonPasarAsistencia" alignment="0" max="32767" attributes="0"/>
                           <Component id="botonModificarAsistencia" alignment="0" pref="178" max="32767" attributes="0"/>
-                          <Component id="mostrarRegistrosBoton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="botonMostrarRegistrosBoton" alignment="0" max="32767" attributes="0"/>
                           <Component id="botonModificarCurso" max="32767" attributes="0"/>
                           <Component id="botonMostrarArchivo" alignment="0" max="32767" attributes="0"/>
                           <Component id="botonSalirDelPrograma" alignment="0" max="32767" attributes="0"/>
@@ -55,32 +55,32 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="tituloCurso" min="-2" pref="49" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Component id="pasarAsistencia" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="botonModificarAsistencia" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="mostrarRegistrosBoton" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="botonModificarCurso" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="botonMostrarArchivo" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="botonSalirDelPrograma" linkSize="2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="89" max="32767" attributes="0"/>
+              <Component id="botonPasarAsistencia" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="botonModificarAsistencia" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="botonMostrarRegistrosBoton" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="botonModificarCurso" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="botonMostrarArchivo" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="botonSalirDelPrograma" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="pasarAsistencia">
+    <Component class="javax.swing.JButton" name="botonPasarAsistencia">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pasar Asistencia"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pasarAsistenciaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonPasarAsistenciaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botonModificarAsistencia">
@@ -91,12 +91,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonModificarAsistenciaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="mostrarRegistrosBoton">
+    <Component class="javax.swing.JButton" name="botonMostrarRegistrosBoton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Mostrar Registros"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mostrarRegistrosBotonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonMostrarRegistrosBotonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botonMostrarArchivo">

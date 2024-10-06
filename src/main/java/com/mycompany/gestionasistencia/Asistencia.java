@@ -9,7 +9,6 @@ public class Asistencia {
     private int nAtrasos;
     private int nRetiros;
     
-    
     public Asistencia(){
         nAsistencia = 0;
         nFaltas = 0;
@@ -18,7 +17,7 @@ public class Asistencia {
         asistencia = new HashMap<>();
     }
     
-    //getters
+    //GETTERS
     public int getNAsistencia(){
         return nAsistencia;
     }
@@ -35,7 +34,7 @@ public class Asistencia {
         return nRetiros;
     }
     
-    // setters
+    //SETTERS
     public void setNAsistencia(int nAsistencia){
         this.nAsistencia = nAsistencia;
     }
@@ -53,26 +52,28 @@ public class Asistencia {
     }
     
     
-    // metodos
-    public boolean yaRegistrada(String fecha){ // metodo para saber si ya se paso la asistencia en algun dua en especifico
+    //MÉTODOS PROPIOS
+    //Método para ver si la asistencia en tal fecha ya está registrada
+    public boolean yaRegistrada(String fecha){ 
         return asistencia.get(fecha) != null;
     }
     
-    public void modificar(String fecha, int opcion) throws IOException{ //marcar presente o ausente al pasar lista
+    //Método para elegir la asistencia del alumno (Presente / Ausente)
+    public void modificar(String fecha, int opcion) throws IOException{
         String estado = "";
         if (opcion == 1){
-            this.nAsistencia++;
+            this.nAsistencia++; //Se aumenta Presente
             estado = "Presente";
         }
         else if (opcion == 2){
-            this.nFaltas++;
-            estado = "Ausente";
+            this.nFaltas++;     //Se aumenta Ausente
+            estado = "Ausente"; 
         }
         asistencia.put(fecha, estado);
     }
     
-    public void modificar(String fecha, String nuevoEstado) { //modificar la asistencia de un dia ya registrado
-  
+    //Método para modificar la asistencia del alumno en una fecha ya registrada
+    public void modificar(String fecha, String nuevoEstado){ 
         String estadoAnterior = asistencia.get(fecha);
         if (estadoAnterior != null) {
             if (estadoAnterior.equalsIgnoreCase("Presente")) {
@@ -82,12 +83,13 @@ public class Asistencia {
             }
         }
 
+        //En caso de cumplir los estándares
         if (nuevoEstado.equalsIgnoreCase("Atrasado") || 
             nuevoEstado.equalsIgnoreCase("Retirado") || 
             nuevoEstado.equalsIgnoreCase("Presente") || 
             nuevoEstado.equalsIgnoreCase("Ausente")) {
 
-           
+            //Se aumentará la estadística respectiva
             if (nuevoEstado.equalsIgnoreCase("Atrasado")) {
                 this.nAtrasos++;
             } else if (nuevoEstado.equalsIgnoreCase("Retirado")) {
@@ -98,17 +100,9 @@ public class Asistencia {
                 this.nFaltas++;
             }
 
- 
+            //Se hará el cambio a nivel sistemático
             asistencia.remove(fecha, estadoAnterior);
             asistencia.put(fecha, nuevoEstado);
-
-        } else {
-
-            //System.out.println("Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.");
         }
-    }
-
-    public String obtenerInfo(String fecha){ //Saber el estado de un alumno en un dia específico
-        return asistencia.get(fecha);
     }
 }

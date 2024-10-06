@@ -1,7 +1,6 @@
 com\mycompany\gestionasistencia\Asistencia.class
 com\mycompany\gestionasistencia\GestionAsistencia.class
 com\mycompany\gestionasistencia\Alumno.class
-com\mycompany\gestionasistencia\VentanaModificarAlumno$4.class
 com\mycompany\gestionasistencia\VentanaModificarAlumno$2.class
 com\mycompany\gestionasistencia\Profesor.class
 com\mycompany\gestionasistencia\VentanaAlumnosEnRiesgo$1.class
@@ -10,14 +9,15 @@ com\mycompany\gestionasistencia\VentanaModificarDatos$4.class
 com\mycompany\gestionasistencia\VentanaRegistrosCurso.class
 com\mycompany\gestionasistencia\VentanaRegistrosCurso$1.class
 com\mycompany\gestionasistencia\VentanaMenuPrincipal$2.class
-com\mycompany\gestionasistencia\VentanaModificarDatos$6.class
 com\mycompany\gestionasistencia\VentanaMenuPrincipal$5.class
 com\mycompany\gestionasistencia\VentanaModificarDatos$1.class
 com\mycompany\gestionasistencia\VentanaModificarAlumno$1.class
 com\mycompany\gestionasistencia\VentanaModificarAlumno$3.class
 com\mycompany\gestionasistencia\VentanaMenuPrincipal$4.class
+com\mycompany\gestionasistencia\VentanaMenuPrincipal.class
 com\mycompany\gestionasistencia\VentanaModificarDatos$5.class
 com\mycompany\gestionasistencia\AlumnoNoEncontradoException.class
+com\mycompany\gestionasistencia\Curso.class
 com\mycompany\gestionasistencia\VentanaModificarAlumno.class
 com\mycompany\gestionasistencia\VentanaAlumnosEnRiesgo$2.class
 com\mycompany\gestionasistencia\VentanaModificarDatos$3.class

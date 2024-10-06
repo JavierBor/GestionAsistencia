@@ -17,29 +17,29 @@ public class GestionAsistencia {
         
         try {
             // Alumnos para Primero Medio
-            cursos.get("primero medio").agregarAlumno("Juan Caceres", "juan.c@mail.com", "21442863-9", 937868948);
-            cursos.get("primero medio").agregarAlumno("Maria Gonzalez", "maria.g@mail.com", "23456559-0", 937868948);
-            cursos.get("primero medio").agregarAlumno("Carlos Lopez", "carlos.l@mail.com", "21567890-1", 937868948);
+            cursos.get("primero medio").agregarAlumno("Juan Caceres", "juan.caceres@mail.com", "21442863-9", 937868948);
+            cursos.get("primero medio").agregarAlumno("Maria Gonzalez", "maria.gonzales@mail.com", "23456559-0", 937868948);
+            cursos.get("primero medio").agregarAlumno("Carlos Lopez", "carlos.lopez@mail.com", "21567890-1", 937868948);
 
             // Alumnos para Segundo Medio
-            cursos.get("segundo medio").agregarAlumno("Ana Astorga", "ana.a@mail.com", "21678901-2", 937868948);
-            cursos.get("segundo medio").agregarAlumno("Luis Martinez", "luis.m@mail.com", "22789012-3", 937868948);
-            cursos.get("segundo medio").agregarAlumno("Jose Zamorano", "jose.z@mail.com", "20890123-4",937868948);
+            cursos.get("segundo medio").agregarAlumno("Ana Astorga", "ana.astorga@mail.com", "21678901-2", 937868948);
+            cursos.get("segundo medio").agregarAlumno("Luis Martinez", "luis.martinez@mail.com", "22789012-3", 937868948);
+            cursos.get("segundo medio").agregarAlumno("Jose Zamorano", "jose.zamorano@mail.com", "20890123-4",937868948);
 
             // Alumnos para Tercero Medio
-            cursos.get("tercero medio").agregarAlumno("Pablo Diaz", "pablo.d@mail.com", "22012345-6", 937868948);
-            cursos.get("tercero medio").agregarAlumno("Elena Fernandez", "elena.f@mail.com", "21123456-7", 937868948);
-            cursos.get("tercero medio").agregarAlumno("Laura Sanchez", "laura.s@mail.com", "19901234-5", 937868948);
+            cursos.get("tercero medio").agregarAlumno("Pablo Diaz", "pablo.diaz@mail.com", "22012345-6", 937868948);
+            cursos.get("tercero medio").agregarAlumno("Elena Fernandez", "elena.fernandez@mail.com", "21123456-7", 937868948);
+            cursos.get("tercero medio").agregarAlumno("Laura Sanchez", "laura.sanchez@mail.com", "19901234-5", 937868948);
             
             // Alumnos para Cuarto Medio
-            cursos.get("cuarto medio").agregarAlumno("Diego Alvarez", "diego.a@mail.com", "22234567-8", 937868948);
-            cursos.get("cuarto medio").agregarAlumno("Javier Borquez", "javier.b@mail.com", "23451189-0", 945746339);
-            cursos.get("cuarto medio").agregarAlumno("Diego Valenzuela", "diego.v@mail.com", "11222333-4", 937868948);
+            cursos.get("cuarto medio").agregarAlumno("Diego Alvarez", "diego.alvarez@mail.com", "22234567-8", 937868948);
+            cursos.get("cuarto medio").agregarAlumno("Javier Borquez", "javier.borquez@mail.com", "23451189-0", 945746339);
+            cursos.get("cuarto medio").agregarAlumno("Diego Valenzuela", "diego.valenzuela@mail.com", "11222333-4", 937868948);
 
         } catch (AlumnoRepetidoException e){
             System.out.println(e.getMessage());
         }
-        
+                
         String urlArchivo = "https://raw.githubusercontent.com/JavierBor/GestionAsistencia/refs/heads/master/src/main/java/com/mycompany/gestionasistencia/datosCursos.csv";
         cargarAlumnosDesdeURL(urlArchivo, cursos);
         
@@ -58,7 +58,7 @@ public class GestionAsistencia {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length == 6) {
+                if (datos.length == 5) {
                     String curso = datos[0].trim();
                     String nombre = datos[1].trim();
                     String rut = datos[2].trim();

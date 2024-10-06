@@ -170,23 +170,39 @@ public class Curso {
     }
     
     
-    public void modAsistencia(String rut) throws IOException{
+    public void modAsistencia(String rut) throws IOException {
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        Alumno alumno = getAlumno(rut);
-  
-        if (alumno != null){
-            String fecha;
-            String estado;
-            
-            System.out.print("Ingrese la fecha que quiere modificar (dd/mm/aaaa): ");
-            fecha = lector.readLine();
-            
-            System.out.print("Ingrese el nuevo estado (Presente/Ausente/Atrasado/Retirado): ");
-            estado = lector.readLine();
-            alumno.registrar(fecha, estado);
-        }
-        else{
-            System.out.println("No se encontro el alumno");
+        Alumno alumno = estaAlumno(rut); // Verifica si el alumno existe en el curso
+
+        if (alumno != null) {
+            String fecha = JOptionPane.showInputDialog("Ingrese la fecha actual (dd/mm/aaaa):");
+
+            if (fecha != null) {
+                // Verifica si la fecha ya está registrada
+                if (!(alumno.getAsistencia().yaRegistrada(fecha))) {
+                    JOptionPane.showMessageDialog(null, "La fecha ya está registrada. No se puede modificar la asistencia.", "Error!", JOptionPane.ERROR_MESSAGE);
+                    return; // Salimos del método si la fecha ya está registrada
+                }
+
+                // Solicita el nuevo estado de asistencia
+                String estado = JOptionPane.showInputDialog("Ingrese el nuevo estado (Presente/Ausente/Atrasado/Retirado)");
+
+                if (estado != null && (estado.equalsIgnoreCase("Presente") ||
+                        estado.equalsIgnoreCase("Ausente") ||
+                        estado.equalsIgnoreCase("Atrasado") ||
+                        estado.equalsIgnoreCase("Retirado"))) {
+
+                    // Registra el nuevo estado
+                    alumno.registrar(fecha, estado);
+                    JOptionPane.showMessageDialog(null, "Asistencia modificada exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La fecha no puede ser nula.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el alumno con RUT: " + rut, "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -291,12 +307,12 @@ public class Curso {
     }
 
 
-    public void escribirArchivoAlumnos() {
+        public void escribirArchivoAlumnos() {
         String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("-".repeat(60));
             writer.newLine();
-            writer.write("LISTA DE ALUMNOS" );
+            writer.write("LISTA DE ALUMNOS");
             writer.newLine();
             writer.write("-".repeat(60));
             writer.newLine();
@@ -312,43 +328,47 @@ public class Curso {
                 writer.write("-".repeat(60));
                 writer.newLine();
             }
-            System.out.println("Lista de alumnos escrita exitosamente en el archivo.");
+            // Mensaje de éxito utilizando JOptionPane
+            JOptionPane.showMessageDialog(null, "Lista de alumnos escrita exitosamente en el archivo.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            System.out.println("Ocurrió un error al escribir en el archivo.");
-            e.printStackTrace();
+            // Mensaje de error utilizando JOptionPane
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); // Puedes mantener esto si deseas registrar el error en la consola
         }
     }
 
-    public void abrirArchivo(BufferedReader lector) throws IOException {
+    public void abrirArchivo() throws IOException {
         String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
-        boolean dentroArchivo = true;
-        while (dentroArchivo) {
-            System.out.println("\nArchivo abierto para el curso: " + this.nombreCurso);
-            System.out.println("1. Volver al menú principal y eliminar archivo");
-            System.out.print("Elija una opción: ");
 
-            int opcion = Integer.parseInt(lector.readLine());
-
-            if (opcion == 1) {
-                this.eliminarArchivo(filePath); // Llamada al método eliminar
-                dentroArchivo = false;
-            } else {
-                System.out.println("Opción no válida. Por favor, intente de nuevo.");
+        // Leer y mostrar contenido del archivo
+        StringBuilder contenidoArchivo = new StringBuilder();
+        String linea;
+        try (BufferedReader archivo = new BufferedReader(new FileReader(filePath))) {
+            while ((linea = archivo.readLine()) != null) {
+                contenidoArchivo.append(linea).append("\n");
             }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Salimos del método si hay un error
         }
+
+        // Mostrar contenido del archivo en un cuadro de diálogo
+        JOptionPane.showMessageDialog(null, contenidoArchivo.toString(), "Contenido del Archivo", JOptionPane.INFORMATION_MESSAGE);
+
+        // No eliminamos el archivo aquí. Solo mostramos el contenido.
     }
-    String filePath = "src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt";
+
 
     public void eliminarArchivo(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
             if (file.delete()) {
-                System.out.println("Archivo eliminado exitosamente.");
+                JOptionPane.showMessageDialog(null,"Volviendo al menu principal", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se pudo eliminar el archivo.");
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            System.out.println("El archivo no existe.");
+            JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -130,7 +130,7 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
     //Botón para pasar asistencia por curso
     private void pasarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasarAsistenciaActionPerformed
         // Solicitar el nombre del alumno
-        String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):");
+        String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):").toLowerCase();
         
         // Verificar si el nombre es válido
         if (nombreCurso != null && cursos.containsKey(nombreCurso)) {
@@ -148,7 +148,59 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
 
     //Botón para modificar la asistencia de un alumno
     private void botonModificarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarAsistenciaActionPerformed
-        // TODO add your handling code here:
+        String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):").toLowerCase();
+
+        if (nombreCurso == null || nombreCurso.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El curso no puede ser nulo o vacío.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!cursos.containsKey(nombreCurso)) {
+            JOptionPane.showMessageDialog(null, "Curso no válido.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Curso cursoActual = cursos.get(nombreCurso); // Obtener el curso del mapa
+        String rut = JOptionPane.showInputDialog("Ingrese el RUT del Alumno");
+
+        if (rut == null || rut.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El RUT no puede ser nulo o vacío.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Alumno alumno = cursoActual.estaAlumno(rut); // Verifica si el alumno existe en el curso
+
+        if (alumno != null) {
+            String fecha = JOptionPane.showInputDialog("Ingrese la fecha actual (dd/mm/aaaa):");
+
+            if (fecha != null && !fecha.isEmpty()) {
+                // Verifica si la fecha ya está registrada
+                if (!(alumno.getAsistencia().yaRegistrada(fecha)) ) {
+                    JOptionPane.showMessageDialog(null, "La fecha ya está registrada. No se puede modificar la asistencia.", "Error!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Solicita el nuevo estado de asistencia
+                String estado = JOptionPane.showInputDialog("Ingrese el nuevo estado (Presente/Ausente/Atrasado/Retirado)");
+
+                if (estado != null && (estado.equalsIgnoreCase("Presente") ||
+                        estado.equalsIgnoreCase("Ausente") ||
+                        estado.equalsIgnoreCase("Atrasado") ||
+                        estado.equalsIgnoreCase("Retirado"))) {
+
+                    // Registra el nuevo estado
+                    alumno.registrar(fecha, estado);
+                    JOptionPane.showMessageDialog(null, "Asistencia modificada exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Estado no válido. Solo se permite: Presente, Ausente, Atrasado o Retirado.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La fecha no puede ser nula o vacía.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el alumno con RUT: " + rut, "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_botonModificarAsistenciaActionPerformed
 
     //Botón para mostrar los registros, ya sea por curso, por alumno (rut) o alumnos en riesgo (Asistencia < 70%)
@@ -219,7 +271,39 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mostrarRegistrosBotonActionPerformed
 
     private void botonMostrarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarArchivoActionPerformed
-        // TODO add your handling code here:
+    String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):").toLowerCase();
+
+    // Verificar si el nombre es válido
+    if (nombreCurso != null && cursos.containsKey(nombreCurso)) {
+        cursoActual = (Curso) cursos.get(nombreCurso);
+        
+        try {
+            // Abrimos el archivo (sin eliminarlo)
+            
+            cursoActual.escribirArchivoAlumnos();
+            cursoActual.abrirArchivo();
+            cursoActual.eliminarArchivo("src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt");
+/*
+            // Menú para volver al menú principal
+            String[] opciones = {"Volver al menú principal"};
+            int opcion = JOptionPane.showOptionDialog(null,
+                    "Seleccione la opción",
+                    "Menú Principal",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]);
+
+            // Si seleccionan "Volver al menú principal", eliminamos el archivo
+            if (opcion == 0) {
+                cursoActual.eliminarArchivo("src\\main\\java\\com\\mycompany\\gestionasistencia\\listaAlumnos.txt");
+            } */
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al manejar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
     }//GEN-LAST:event_botonMostrarArchivoActionPerformed
 
     private void botonModificarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarCursoActionPerformed

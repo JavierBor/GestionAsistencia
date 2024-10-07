@@ -66,7 +66,8 @@ public class Curso {
         int fechaVista = 0; //Servirá para condicionales
         String fecha = JOptionPane.showInputDialog("Ingrese la fecha actual (dd/mm/aaaa):");
 
-        if (fecha != null && !fecha.isEmpty()) {
+        if (fecha == null) return;
+        if (!fecha.isEmpty()) {
             for (int i = 0; i < alumnos.size(); i++) {
                 alumno = alumnos.get(i); //Conseguiremos los alumnos uno por uno
                 if (alumno.getAsistencia().yaRegistrada(fecha)){ //En caso de existir la fecha, mostraremos esto

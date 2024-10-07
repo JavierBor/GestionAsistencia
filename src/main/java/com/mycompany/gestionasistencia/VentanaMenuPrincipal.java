@@ -131,7 +131,7 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
         String nombreCurso = JOptionPane.showInputDialog("Ingrese el curso (Ej: Primero Medio):");
         
         // Verificar si el nombre es válido
-        if (nombreCurso != null && cursos.containsKey(nombreCurso)) {
+        if (nombreCurso != null && cursos.containsKey(nombreCurso.toLowerCase())) {
             nombreCurso = nombreCurso.toLowerCase();
             cursoActual = (Curso) cursos.get(nombreCurso);
             try {
@@ -219,7 +219,7 @@ public class VentanaMenuPrincipal extends javax.swing.JFrame {
     private void botonMostrarRegistrosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarRegistrosBotonActionPerformed
         //Primero preguntamos por el curso
         nombreCurso = (JOptionPane.showInputDialog("Ingrese el curso a mostrar (Ej: Primero Medio):"));
-        if (nombreCurso != null && cursos.containsKey(nombreCurso)){
+        if (nombreCurso != null && cursos.containsKey(nombreCurso.toLowerCase())){
             nombreCurso = nombreCurso.toLowerCase();
             cursoActual = (Curso) cursos.get(nombreCurso);
         }
